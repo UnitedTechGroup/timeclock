@@ -203,8 +203,8 @@ if ($request == 'POST') {
 
     // signin/signout data passed over from timeclock.php //
 
-    $inout = $_POST['left_inout'];
-    $notes = preg_replace("[^a-zA-Z0-9 \,\.\?-]", "", strtolower($_POST['left_notes']));
+    $inout = isset($_POST['left_inout']) ? $_POST['left_inout'] : '';
+    $notes = isset($_POST['left_notes']) ? preg_replace("[^a-zA-Z0-9 \,\.\?-]", "", strtolower($_POST['left_notes'])) : '';
 
     // begin post validation //
 
