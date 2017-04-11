@@ -83,7 +83,7 @@ function tc_insert_strings($db, $keyvals) {
         $keys .= "`$key`";
         $places .= "?";
         $types .= "s";
-        $values[] = "$value";
+        $values[] = (is_null($value) ? $value : "$value");
     }
     tc_execute("INSERT INTO ${db_prefix}$db ($keys) VALUES ($places)", $values, $types);
     return mysqli_insert_id($GLOBALS["___mysqli_ston"]);
@@ -100,7 +100,7 @@ function tc_update_strings($db, $keyvals, $where = '1=1', $bind = array(), $type
         }
         $places .= "`$key` = ?";
         $set_types .= "s";
-        $values[] = "$value";
+        $values[] = (is_null($value) ? $value : "$value");
     }
     if (!is_array($bind)) {
         $bind = array($bind);
