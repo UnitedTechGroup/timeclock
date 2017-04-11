@@ -266,9 +266,9 @@ QUERY
             $fullname = tc_select_value("empfullname", "employees", "$emp_name_field = ?", $emp_name);
         }
 
-        $clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => $notes, "punchoffice" => @$_COOKIE['office_name']);
+        $clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => "$notes", "punchoffice" => "".@$_COOKIE['office_name']);
         if (strtolower($ip_logging) == "yes") {
-            $clockin["ipaddress"] = $connecting_ip;
+            $clockin["ipaddress"] = "$connecting_ip";
         }
 
         tc_insert_strings("info", $clockin);
@@ -293,9 +293,9 @@ QUERY
 
         if ($employee_passwd == $tmp_password) {
 
-            $clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => $notes, "punchoffice" => @$_COOKIE['office_name']);
+            $clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => "$notes", "punchoffice" => "".@$_COOKIE['office_name']);
             if (strtolower($ip_logging) == "yes") {
-                $clockin["ipaddress"] = $connecting_ip;
+                $clockin["ipaddress"] = "$connecting_ip";
             }
 
             tc_insert_strings("info", $clockin);

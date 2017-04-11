@@ -565,21 +565,21 @@ if ($request == 'GET') {
             "fullname"  => $post_username,
             "inout"     => $post_statusname,
             "timestamp" => $timestamp,
-            "notes"     => trim($post_notes),
+            "notes"     => trim("$post_notes"),
         ));
 
         // add the results to the audit table
 
         $data = array(
-            "modified_by_user" => $user,
+            "modified_by_user" => "$user",
             "modified_when" => $time_tz_stamp,
             "modified_from" => 0,
             "modified_to" => $timestamp,
-            "modified_why" => $post_why,
+            "modified_why" => "$post_why",
             "user_modified" => $post_username,
         );
         if (yes_no_bool($ip_logging)) {
-            $data["modified_by_ip"] = $connecting_ip;
+            $data["modified_by_ip"] = "$connecting_ip";
         }
         tc_insert_strings("audit", $data);
 

@@ -491,10 +491,10 @@ if ($request == 'GET') {
         'barcode'     => $user_barcode,
         'groups'      => $group_name,
         'office'      => $office_name,
-        'admin'       => $admin_perms,
-        'reports'     => $reports_perms,
-        'time_admin'  => $time_admin_perms,
-        'disabled'    => $post_disabled
+        'admin'       => "$admin_perms",
+        'reports'     => "$reports_perms",
+        'time_admin'  => "$time_admin_perms",
+        'disabled'    => "$post_disabled"
     ), "empfullname = ?", $post_username);
 
     echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";

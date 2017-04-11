@@ -269,7 +269,7 @@ if ($request == 'GET') {
                 "punchitems" => $post_statusname,
                 "color"      => $post_color,
                 "in_or_out"  => $create_status,
-                "punchnext"  => $punchnext
+                "punchnext"  => "$punchnext"
             )
         );
 
