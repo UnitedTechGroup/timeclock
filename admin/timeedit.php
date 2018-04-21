@@ -406,7 +406,7 @@ if ($request == 'GET') {
                     exit;
                 }
 
-                $final_notes[$x] = ereg_replace("[^[:alnum:] \,\.\?-]", "", $final_notes[$x]);
+                $final_notes[$x] = preg_replace("[^a-zA-Z0-9 \,\.\?-]", "", $final_notes[$x]);
                 $final_username[$x] = addslashes($final_username[$x]);
 
                 $query5 = "select * from " . $db_prefix . "info where (fullname = '" . $final_username[$x] . "') and (timestamp = '" . $final_mysql_timestamp[$x] . "') and
