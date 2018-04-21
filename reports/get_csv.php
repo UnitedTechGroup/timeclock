@@ -900,6 +900,7 @@ if (($_GET['rpt'] == 'timerpt') && (isset($_GET['display_ip'])) && (isset($_GET[
     $modified_from = array();
     $modified_to = array();
     $modified_by_ip = array();
+    $modified_office = array();
     $modified_by_user = array();
     $modified_why = array();
 
@@ -915,12 +916,13 @@ if (($_GET['rpt'] == 'timerpt') && (isset($_GET['display_ip'])) && (isset($_GET[
         $modified_from[] = "" . $row["modified_from"] . "";
         $modified_to[] = "" . $row["modified_to"] . "";
         $modified_by_ip[] = "" . $row["modified_by_ip"] . "";
+        $modified_office[] = "" . $row["modified_office"] . "";
         $modified_by_user[] = stripslashes("" . $row["modified_by_user"] . "");
         $modified_why[] = "" . $row["modified_why"] . "";
         $cnt++;
     }
 
-    $headings = "Action Taken, Modified When, Modified From, Modified To, Modified By, Modified By IP,\n";
+    $headings = "Action Taken, Modified When, Modified From, Modified To, Modified By, Modified By IP, Modified Office,\n";
     $string = "";
 
     for ($x = 0; $x < $cnt; $x++) {
@@ -956,7 +958,7 @@ if (($_GET['rpt'] == 'timerpt') && (isset($_GET['display_ip'])) && (isset($_GET[
             $modified_color = "#009900";
         }
 
-        $string .= "$modified_status, $modified_when_date $modified_when_time, $modified_from_date $modified_from_time, $modified_to_date $modified_to_time, $modified_by_user[$x], $modified_by_ip[$x],\n";
+        $string .= "$modified_status, $modified_when_date $modified_when_time, $modified_from_date $modified_from_time, $modified_to_date $modified_to_time, $modified_by_user[$x], $modified_by_ip[$x], $modified_office[$x],\n";
     }
     header("Content-type: application/x-msdownload");
     header("Content-Disposition: attachment; filename=total_hours.csv");

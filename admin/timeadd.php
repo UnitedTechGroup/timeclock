@@ -581,6 +581,9 @@ if ($request == 'GET') {
         if (yes_no_bool($ip_logging)) {
             $data["modified_by_ip"] = "$connecting_ip";
         }
+        if (yes_no_bool($audit_office) && !empty($_COOKIE['office_name'])) {
+            $data["modified_office"] = "".$_COOKIE['office_name'];
+        }
         tc_insert_strings("audit", $data);
 
         $post_date = date($datefmt, $timestamp + @$tzo);

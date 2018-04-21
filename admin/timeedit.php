@@ -651,22 +651,29 @@ if ($request == 'GET') {
                             }
                         }
 
-                        $query3 = "update " . $db_prefix . "info set timestamp = '" . $new_tstamp[$x] . "' where ((fullname = '" . $final_username[$x] . "')
-             and (`inout` = '" . $final_inout[$x] . "') and (timestamp = '" . $final_mysql_timestamp[$x] . "') and (notes = '" . $final_notes[$x] . "'))";
-                        $result3 = mysqli_query($GLOBALS["___mysqli_ston"], $query3);
+                        tc_update_strings(
+                            "info",
+                            array("timestamp" => $new_tstamp[$x]),
+                            "((fullname = ?) AND (`inout` = ?) AND (timestamp = ?) AND (notes = ?))",
+                            array($final_username[$x], $final_inout[$x], $final_mysql_timestamp[$x], $final_notes[$x])
+                        );
 
                         // add the results to the audit table
-
-                        if (strtolower($ip_logging) == "yes") {
-                            $query4 = "insert into " . $db_prefix . "audit (modified_by_ip, modified_by_user, modified_when, modified_from, modified_to, modified_why, user_modified) values
-           ('" . $connecting_ip . "', '" . $user . "', '" . $time_tz_stamp . "', '" . $final_mysql_timestamp[$x] . "', '" . $new_tstamp[$x] . "', '" . $post_why . "',
-           '" . $final_username[$x] . "')";
-                            $result4 = mysqli_query($GLOBALS["___mysqli_ston"], $query4);
-                        } else {
-                            $query4 = "insert into " . $db_prefix . "audit (modified_by_user, modified_when, modified_from, modified_to, modified_why, user_modified) values
-           ('" . $user . "', '" . $time_tz_stamp . "', '" . $final_mysql_timestamp[$x] . "', '" . $new_tstamp[$x] . "', '" . $post_why . "', '" . $final_username[$x] . "')";
-                            $result4 = mysqli_query($GLOBALS["___mysqli_ston"], $query4);
+                        $data = array(
+                            "modified_by_user" => "$user",
+                            "modified_when" => $time_tz_stamp,
+                            "modified_from" => $final_mysql_timestamp[$x],
+                            "modified_to" => $new_tstamp[$x],
+                            "modified_why" => "$post_why",
+                            "user_modified" => $final_username[$x],
+                        );
+                        if (yes_no_bool($ip_logging)) {
+                            $data["modified_by_ip"] = "$connecting_ip";
                         }
+                        if (yes_no_bool($audit_office) && !empty($_COOKIE['office_name'])) {
+                            $data["modified_office"] = "".$_COOKIE['office_name'];
+                        }
+                        tc_insert_strings("audit", $data);
 
                         echo "                <tr class=display_row><td width=1% align=center class=table_rows bgcolor='$row_color' style='padding-left:5px;padding-right:5px;'>
                         <img src='../images/icons/accept.png' /></td><td nowrap width=1% class=table_rows style='padding-right:5px;' bgcolor='$row_color'>
