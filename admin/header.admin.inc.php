@@ -2,6 +2,7 @@
 <?php
 
 require '../common.php';
+setup_csrf_protection();
 
 // grab the connecting ip address for the audit log. if more than 1 ip address is returned, accept the first ip and discard the rest. //
 

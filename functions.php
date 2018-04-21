@@ -186,6 +186,27 @@ function has_value($val) {
     return (strlen(trim(@$val)) != 0);
 }
 
+function nonce($alphabet, $length) {
+    $n = "";
+    for ($i = 0; $i < $length; $i++) {
+        $n .= $alphabet[random_int(0, strlen($alphabet)-1)];
+    }
+    return $n;
+}
+
+function setup_csrf_protection() {
+    if (empty($_COOKIE['csrf-token'])) {
+        setcookie('csrf-token', nonce('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 15));
+    }
+}
+
+function csrf_ok($token = null) {
+    if (empty(@$_COOKIE['csrf-token'])) { return false; }
+    if (!isset($token)) { $token = @$_POST['csrf-token']; }
+    if (!isset($token)) { $token = @$_GET['csrf-token']; }
+    return $token === $_COOKIE['csrf-token'];
+}
+
 function secsToHours($secs, $round_time) {
 
     /* The logic for this function was written by Adam Woodbeck, who initially wrote it to round to the
