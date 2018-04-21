@@ -1,6 +1,5 @@
 <?php
 require '../common.php';
-include '../functions.php';
 tc_connect();
 
 if (($_GET['rpt'] == 'timerpt') && (isset($_GET['display_ip'])) && (isset($_GET['csv'])) && (isset($_GET['office'])) && (isset($_GET['group'])) &&

@@ -11,7 +11,6 @@ if (!isset($_SESSION['application']))
 
 require 'common.php';
 require_once 'lib.timecard.php';
-require_once "$TIMECLOCK_PATH/functions.php";
 //turn_off_magic_quotes();
 
 // Connect to db.

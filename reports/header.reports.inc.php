@@ -1,7 +1,7 @@
 <html>
 <?php
 
-include '../functions.php';
+require_once '../functions.php';
 
 // grab the connecting ip address. //
 
