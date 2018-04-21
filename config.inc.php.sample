@@ -119,7 +119,7 @@ $barcode_clockin = "yes";
    Default type "code39".
    Default length "10".
 
-   Valid type: code39   (only code39 so far)
+   Valid types: null, "code39"
 
    New in: v2.1
  */
