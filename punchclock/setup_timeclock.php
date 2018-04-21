@@ -34,24 +34,8 @@ if ($restrict_ips == "yes") {
     }
 }
 
-// check for correct db version //
-
-@ $db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
-if (!$db) {
-    echo "Error: Could not connect to the database. Please try again later.";
-    exit;
-}
-mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
-
-$table = "dbversion";
-$result = mysqli_query($GLOBALS["___mysqli_ston"], "SHOW TABLES LIKE '" . $db_prefix . $table . "'");
-$rows = $result ? mysqli_num_rows($result) : 0;
-$dbexists = $rows == 1 ? "1" : "0";
-
-$db_version_result = mysqli_query($GLOBALS["___mysqli_ston"], "select * from " . $db_prefix . "dbversion");
-while (@$row = mysqli_fetch_array($db_version_result)) {
-    @$my_dbversion = "" . $row["dbversion"] . "";
-}
+// connect to db //
+tc_connect();
 
 // include css and timezone offset//
 

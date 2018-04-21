@@ -1,14 +1,7 @@
 <?php
-
 require '../common.php';
 include '../functions.php';
-
-@$db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
-if (!$db) {
-    echo "Error: Could not connect to the database. Please try again later.";
-    exit;
-}
-mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
+tc_connect();
 
 if (($_GET['rpt'] == 'timerpt') && (isset($_GET['display_ip'])) && (isset($_GET['csv'])) && (isset($_GET['office'])) && (isset($_GET['group'])) &&
     (isset($_GET['fullname'])) && (isset($_GET['from'])) && (isset($_GET['to'])) && (isset($_GET['tzo']))

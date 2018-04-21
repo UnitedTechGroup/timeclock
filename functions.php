@@ -1,5 +1,11 @@
 <?php
 
+function croak($code, $msg) {
+    http_response_code($code);
+    echo $msg;
+    throw new Exception($msg);
+}
+
 function _tc_bind_param($stmt, $params, $types) {
     if (is_null($params)) {
         $params = array();
@@ -23,7 +29,30 @@ function _tc_bind_param($stmt, $params, $types) {
     return call_user_func_array(array($stmt, 'bind_param'), @$refs);
 }
 
+# Ensure connected to database.
+function tc_connect() {
+    global $db_hostname;
+    global $db_username;
+    global $db_password;
+    global $db_name;
+
+    if (!isset($GLOBALS["___mysqli_ston"])) {
+        @ $db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
+        if (!$db) {
+            croak("Error: Could not connect to the database. Please try again later.");
+        }
+        mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
+    }
+}
+
+# Return application database version or else -1
+function tc_dbversion() {
+    @$version = tc_select_value("*", "dbversion");
+    return (isset($version) ? $version : -1);
+}
+
 function tc_execute($query, $params = array(), $types = null) {
+    if (!isset($GLOBALS["___mysqli_ston"])) { tc_connect(); }
     if (!($stmt = $GLOBALS["___mysqli_ston"]->prepare($query))) {
         error_log("Failed to prepare $query: " . mysqli_error($GLOBALS["___mysqli_ston"]));
         return false;
@@ -37,6 +66,7 @@ function tc_execute($query, $params = array(), $types = null) {
 }
 
 function tc_query($query, $params = array(), $types = null) {
+    if (!isset($GLOBALS["___mysqli_ston"])) { tc_connect(); }
     if (!($stmt = $GLOBALS["___mysqli_ston"]->prepare($query))) {
         error_log("Failed to prepare $query: " . mysqli_error($GLOBALS["___mysqli_ston"]));
         return false;

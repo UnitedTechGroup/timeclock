@@ -16,7 +16,7 @@ if ($logo == "none") {
 
 // if db is out of date, report it here //
 
-if (($dbexists <> "1") || (@$my_dbversion <> $dbversion)) {
+if (tc_dbversion() <> $dbversion) {
     echo "    <td no class=notprint valign=middle align=left style='font-size:13;font-weight:bold;color:#AA0000'><p>***Your database is out of date.***<br />
                                                                                 &nbsp;&nbsp;&nbsp;Upgrade it via the admin section.</p></td>\n";
 }

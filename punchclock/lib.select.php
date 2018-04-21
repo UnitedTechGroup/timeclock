@@ -18,9 +18,6 @@
  *    of values for a <select multiple> tag.
  *
  *    Only <option> tags are returned.
- *
- *    If the global $db is set, it is used as the database resource link identifier,
- *    otherwise the mysql internal default connection is used.
  */
 
 ////////////////////////////////////////
@@ -32,8 +29,7 @@ function select_options($arg, $val = null) {
     if (is_array($arg))
         return _select_options_arr($arg, $lookup);
     $html = ''; // initialize return string
-    $db = isset($GLOBALS['db']) ? $GLOBALS['db'] : null;
-    $result = mysqli_query( $db, $arg);
+    $result = mysqli_query(null, $arg);
     while ($row = mysqli_fetch_row($result)) {
         if (count($row) < 2)
             $row[1] = $row[0];

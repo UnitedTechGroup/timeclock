@@ -29,29 +29,9 @@ if ($restrict_ips == "yes") {
     }
 }
 
-// connect to db anc check for correct db version //
+// connect to db //
 
-@ $db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
-if (!$db) {
-    echo "Error: Could not connect to the database. Please try again later.";
-    exit;
-}
-mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
-
-$table = "dbversion";
-$result = mysqli_query($GLOBALS["___mysqli_ston"], "SHOW TABLES LIKE '" . $db_prefix . $table . "'");
-@$rows = mysqli_num_rows($result);
-
-if ($rows == "1") {
-    $dbexists = "1";
-} else {
-    $dbexists = "0";
-}
-
-$db_version_result = mysqli_query($GLOBALS["___mysqli_ston"], "select * from " . $db_prefix . "dbversion");
-while (@$row = mysqli_fetch_array($db_version_result)) {
-    @$my_dbversion = "" . $row["dbversion"] . "";
-}
+tc_connect();
 
 // include css and timezone offset//
 
@@ -72,7 +52,7 @@ echo "<link rel='stylesheet' type='text/css' media='screen' href='css/default.cs
 echo "<link rel='stylesheet' type='text/css' media='screen' href='css/local.css' />\n";
 echo "<link rel='stylesheet' type='text/css' media='print' href='css/print.css' />\n";
 
-// set refresh rate for each page //  
+// set refresh rate for each page //
 
 if ($refresh == "none") {
     echo "</head>\n";

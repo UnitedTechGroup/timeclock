@@ -17,9 +17,7 @@ if (!$search)
     exit;
 
 // Connect to db.
-$db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password))
-or die("Could not connect to the database.");
-mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
+tc_connect();
 
 // Search for employee names beginning with query
 $q_search = mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $search);
