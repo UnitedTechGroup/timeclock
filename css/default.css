@@ -79,6 +79,10 @@
     font-weight: bold;
 }
 
+.invisible {
+    visibility: hidden;
+}
+
 .display_hide {
     display: none;
 }

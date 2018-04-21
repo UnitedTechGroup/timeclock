@@ -164,6 +164,11 @@ function html_options($result, $selected='') {
     return implode("", $rv);
 }
 
+function json_out($value) {
+    header('Content-Type: application/json');
+    echo json_encode($value);
+}
+
 function yes_no_bool($val, $default=false) {
     if (strtolower(@$val) == 'yes') {
         return true;

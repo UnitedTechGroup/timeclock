@@ -115,6 +115,33 @@ $use_reports_password = "no";
 $barcode_clockin = "yes";
 
 
+/* Allow generation of random barcodes which probably won't result in duplicates.
+   Default type "code39".
+   Default length "10".
+
+   Valid type: code39   (only code39 so far)
+
+   Since: v2.1
+ */
+
+$barcode_type = "code39";
+$barcode_length = "10";
+
+
+/* Allow rendering of barcodes to images using gnu "barcode" and
+   ImageMagick "convert" (which must both be installed on server). When set
+   to "yes", rendered images will be stored in the named cache directory
+   for the specified interval.
+   Defaults are "no", "/tmp/timeclock-barcodes", and "1 hour" respectively.
+
+   Since: v2.1
+ */
+
+$barcode_rendering = "no";
+$barcode_cache_dir = "/tmp/timeclock-barcodes";
+$barcode_cache_age = "1 hour";
+
+
 /* Choose whether to allow selecting employee name from dropdown to
    clock-in/out. Options are "yes" or "no". If "yes" is chosen, the a
    dropdown (and password entry if enabled) will be displayed on the
