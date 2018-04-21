@@ -121,7 +121,7 @@ $barcode_clockin = "yes";
 
    Valid type: code39   (only code39 so far)
 
-   Since: v2.1
+   New in: v2.1
  */
 
 $barcode_type = "code39";
@@ -134,7 +134,7 @@ $barcode_length = "10";
    for the specified interval.
    Defaults are "no", "/tmp/timeclock-barcodes", and "1 hour" respectively.
 
-   Since: v2.1
+   New in: v2.1
  */
 
 $barcode_rendering = "no";

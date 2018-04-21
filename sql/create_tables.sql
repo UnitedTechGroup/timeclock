@@ -126,7 +126,7 @@ CREATE TABLE `punchlist` (
 -- Insert default data. Version, admin login, etc.
 --
 
-INSERT INTO dbversion (dbversion) VALUES ('2.0');
+INSERT INTO dbversion (dbversion) VALUES ('2.1');
 INSERT INTO employees (empfullname, employee_passwd, displayname, `admin`, reports, time_admin) VALUES ('admin', 'xy.RY2HT1QTc2', 'administrator', 1, 1, 1);
 INSERT INTO punchlist (punchitems, color, in_or_out) VALUES ('in', '#009900', 1);
 INSERT INTO punchlist (punchitems, color, in_or_out) VALUES ('out', '#FF0000', 0);
