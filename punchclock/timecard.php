@@ -25,6 +25,7 @@ include 'setup_timeclock.php'; // authorize and initialize
 // Parse arguments.
 $emp = isset($_GET['emp']) ? $_GET['emp'] : null;
 $empfullname = isset($_REQUEST['empfullname']) ? $_REQUEST['empfullname'] : null;
+$error_msg = "";
 
 if (!$empfullname)
     $empfullname = $emp; // from url or form entry

@@ -29,7 +29,7 @@ function select_options($arg, $val = null) {
     if (is_array($arg))
         return _select_options_arr($arg, $lookup);
     $html = ''; // initialize return string
-    $result = mysqli_query(null, $arg);
+    $result = mysqli_query($GLOBALS["___mysqli_ston"], $arg);
     while ($row = mysqli_fetch_row($result)) {
         if (count($row) < 2)
             $row[1] = $row[0];
