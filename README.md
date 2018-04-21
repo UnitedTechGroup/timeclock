@@ -18,6 +18,11 @@ you can redistribute it and/or modify it under the terms of the GNU General
 Public License version 2, as published by the Free Software Foundation.
 
 
+This repository is a fork of the original code which has not been updated
+in many years. I am not affiliated with the original projects in any way
+and this fork has not been endorsed by original authors.
+
+
 ## Requirements
 
 - Tested with PHP 5.4 – 7.0
@@ -40,3 +45,15 @@ Originally written by Ken Papizan <pappyzan_at_users.sourceforge.net>.
 ### Punchclock - http://www.acmebase.org/punchclock/
 
 By Mack Pexton <mack@acmebase.org>
+
+
+## Project goals and intentions
+
+I am maintaining this code because we use it at my place of work. I intend
+to keep it updated to run in modern environments, fix security issues, and
+reduce code duplication as I find time. New features will be added as we
+need them, but I don't expect too many to come up.
+
+As I make changes, I will try to preserve existing functionality, even for
+things we do not use, though testing of such features will be limited.
+Patches and bug reports on anything that breaks are welcome.
