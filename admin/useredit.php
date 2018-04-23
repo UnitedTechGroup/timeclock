@@ -1,23 +1,11 @@
 <?php
 session_start();
 require '../common.php';
+require 'widgets.php';
+
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
-
-$_DUMMY_WHEEL = '<img src="../images/icons/loading_wheel.gif" class="invisible" />';
-$_LOADING_WHEEL = '<img src="../images/icons/loading_wheel.gif" class="loading invisible" />';
-$_BTN_GENERATE_BARCODE = (
-    has_value($barcode_type)
-    ? "<button type=\"button\" onclick=\"gen_barcode('input[name=barcode]', '$barcode_type', $barcode_length); return true;\">New</button>"
-    : ""
-);
-
-$_BTN_RENDER_BARCODE = (
-    yes_no_bool($barcode_rendering)
-    ? "<button type=\"button\" onclick=\"print_barcode('input[name=barcode]', '$barcode_type'); return true;\">$_DUMMY_WHEEL PNG $_LOADING_WHEEL</button>"
-    : ""
-);
 
 
 
@@ -163,7 +151,7 @@ if ($request == 'GET') {
                       <input type='text' size='25' maxlength='75' name='email_addy' value='$user_email'>&nbsp;*</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> $_BTN_GENERATE_BARCODE $_BTN_RENDER_BARCODE</td></tr>\n";
+                      <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> {$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Office:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <select name='office_name' onchange='group_names();'>
@@ -440,7 +428,7 @@ if ($request == 'GET') {
                       <input type='text' size='25' maxlength='75' name='email_addy' value='$email_addy'>&nbsp;*</td></tr>\n";
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> $_BTN_GENERATE_BARCODE $_BTN_RENDER_BARCODE</td></tr>\n";
+                      <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> {$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}</td></tr>\n";
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Office:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <select name='office_name' onchange='group_names();'>\n";

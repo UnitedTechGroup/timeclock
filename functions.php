@@ -6,6 +6,14 @@ function croak($code, $msg) {
     throw new Exception($msg);
 }
 
+# Work around lack of function calls (or code evaluation) in string
+# interpolation. Usage:
+#
+#    echo "2+3={$eval( 2+3 )} or call function {$eval( my_function(1,2) )}"
+#
+function identity($arg){return $arg;}
+$eval="identity";
+
 function _tc_bind_param($stmt, $params, $types) {
     if (is_null($params)) {
         $params = array();
