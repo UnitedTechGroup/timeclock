@@ -1,5 +1,5 @@
 
-PHP Timeclock  2.1.0  released 2018-04-20
+PHP Timeclock  2.1.0  released 2018-04-23
   New features
     - Track punch office/location independent of IP address
     - Include css/local.css in headers for local customizations
