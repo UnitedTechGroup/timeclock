@@ -10,6 +10,8 @@ $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
+$show_all = @$_GET['all'] ? true : false;
+
 if (!isset($_SESSION['valid_user'])) {
 
     echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
@@ -63,37 +65,35 @@ echo "        <tr><td class=left_rows height=18 align=left valign=middle><img sr
                 alt='Upgrade Database' />&nbsp;&nbsp;&nbsp;<a class=admin_headings href='dbupgrade.php'>Upgrade Database</a></td></tr>\n";
 echo "      </table></td>\n";
 
-$user_count = mysqli_query($GLOBALS["___mysqli_ston"], "select empfullname from " . $db_prefix . "employees
-                           order by empfullname");
-@$user_count_rows = mysqli_num_rows($user_count);
+$and_wanted = $show_all ? "" : "AND disabled='0'";
+$user_count       = tc_select_value("COUNT(1)", "employees", "1=1 $and_wanted");
+$admin_count      = tc_select_value("COUNT(1)", "employees", "admin='1' $and_wanted");
+$time_admin_count = tc_select_value("COUNT(1)", "employees", "time_admin='1' $and_wanted");
+$reports_count    = tc_select_value("COUNT(1)", "employees", "reports='1' $and_wanted");
 
-$admin_count = mysqli_query($GLOBALS["___mysqli_ston"], "select empfullname from " . $db_prefix . "employees where admin = '1'");
-@$admin_count_rows = mysqli_num_rows($admin_count);
+$show_all_toggle_link = $show_all
+    ? '<a href="useradmin.php">hide disabled</a>'
+    : '<a href="useradmin.php?all=1">show all</a>'
+;
 
-$time_admin_count = mysqli_query($GLOBALS["___mysqli_ston"], "select empfullname from " . $db_prefix . "employees where time_admin = '1'");
-@$time_admin_count_rows = mysqli_num_rows($time_admin_count);
-
-$reports_count = mysqli_query($GLOBALS["___mysqli_ston"], "select empfullname from " . $db_prefix . "employees where reports = '1'");
-@$reports_count_rows = mysqli_num_rows($reports_count);
 
 echo "    <td align=left class=right_main scope=col>\n";
 echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
 echo "        <tr class=right_main_text>\n";
 echo "          <td valign=top>\n";
 echo "            <table width=90% align=center height=40 border=0 cellpadding=0 cellspacing=0>\n";
-echo "              <tr><th class=table_heading_no_color nowrap width=100% halign=left>User Summary</th></tr>\n";
+echo "              <tr><th class=table_heading_no_color nowrap width=100% halign=left>User Summary <span style=\"font-size: smaller\">($show_all_toggle_link)</span></th></tr>\n";
 echo "              <tr><td height=40 class=table_rows nowrap halign=left><img src='../images/icons/user_green.png' />&nbsp;&nbsp;Total 
-                      Users: $user_count_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='../images/icons/user_orange.png' />&nbsp;&nbsp;
-                      Sys Admin Users: $admin_count_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='../images/icons/user_red.png' />&nbsp;&nbsp;
-                      Time Admin Users: $time_admin_count_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='../images/icons/user_suit.png' />&nbsp;
-                      &nbsp;Reports Users: $reports_count_rows</td></tr>\n";
+                      Users: $user_count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='../images/icons/user_orange.png' />&nbsp;&nbsp;
+                      Sys Admin Users: $admin_count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='../images/icons/user_red.png' />&nbsp;&nbsp;
+                      Time Admin Users: $time_admin_count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='../images/icons/user_suit.png' />&nbsp;
+                      &nbsp;Reports Users: $reports_count</td></tr>\n";
 echo "            </table>\n";
 echo "            <table class=table_border width=90% align=center border=0 cellpadding=0 cellspacing=0>\n";
 echo "              <tr>\n";
 echo "                <th class=table_heading nowrap width=3% align=left>&nbsp;</th>\n";
 echo "                <th class=table_heading nowrap width=13% align=left>Username</th>\n";
 echo "                <th class=table_heading nowrap width=18% align=left>Display Name</th>\n";
-//echo "                <th class=table_heading nowrap width=23% align=left>Email Address</th>\n";
 echo "                <th class=table_heading nowrap width=10% align=left>Office</th>\n";
 echo "                <th class=table_heading nowrap width=10% align=left>Group</th>\n";
 echo "                <th class=table_heading width=3% align=center>Disabled</th>\n";
@@ -106,93 +106,33 @@ echo "                <th class=table_heading nowrap width=3% align=center>Delet
 echo "              </tr>\n";
 
 $row_count = 0;
-
-$query = "select empfullname, displayname, email, groups, office, admin, reports, time_admin, disabled from " . $db_prefix . "employees
-          order by empfullname";
-$result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-
+$result = tc_select("*", "employees", "1=1 $and_wanted ORDER BY empfullname");
 while ($row = mysqli_fetch_array($result)) {
+    $empfullname = $row['empfullname'];
+    $displayname = $row['displayname'];
 
-$empfullname = stripslashes("" . $row['empfullname'] . "");
-$displayname = stripslashes("" . $row['displayname'] . "");
+    $row_count++;
+    $row_color = ($row_count % 2) ? $color2 : $color1;
 
-$row_count++;
-$row_color = ($row_count % 2) ? $color2 : $color1;
+    echo "  <tr class=table_border bgcolor='$row_color'><td nowrap class=table_rows width=3%>&nbsp;$row_count</td>\n";
+    echo "    <td class=table_rows nowrap width=13%>&nbsp;<a title=\"Edit User: $empfullname\" class=footer_links href=\"useredit.php?username=$empfullname&officename=" . $row["office"] . "\">$empfullname</a></td>\n";
+    echo "    <td class=table_rows nowrap width=18%>&nbsp;$displayname</td>\n";
+    echo "    <td class=table_rows nowrap width=10%>&nbsp;".$row['office']."</td>\n";
+    echo "    <td class=table_rows nowrap width=10%>&nbsp;".$row['groups']."</td>\n";
 
-echo "              <tr class=table_border bgcolor='$row_color'><td nowrap class=table_rows width=3%>&nbsp;$row_count</td>\n";
-echo "                <td class=table_rows nowrap width=13%>&nbsp;<a title=\"Edit User: $empfullname\" class=footer_links 
-                    href=\"useredit.php?username=$empfullname&officename=" . $row["office"] . "\">$empfullname</a></td>\n";
-echo "                <td class=table_rows nowrap width=18%>&nbsp;$displayname</td>\n";
-//echo "                <td class=table_rows nowrap width=23%>&nbsp;".$row["email"]."</td>\n";
-echo "
-<td class=table_rows nowrap width=10%>&nbsp;".$row['office']."</td>\n";
-echo "
-<td class=table_rows nowrap width=10%>&nbsp;".$row['groups']."</td>\n";
+    $disabled   = one_or_empty($row["disabled"])   ? "<img src='../images/icons/cross.png'/>"  : "";
+    $admin      = one_or_empty($row["admin"])      ? "<img src='../images/icons/accept.png'/>" : "";
+    $time_admin = one_or_empty($row["time_admin"]) ? "<img src='../images/icons/accept.png'/>" : "";
+    $reports    = one_or_empty($row["reports"])    ? "<img src='../images/icons/accept.png'/>" : "";
 
-if ("".$row["disabled"]."" == 1) {
-echo "
-<td class=table_rows width=3% align=center><img src='../images/icons/cross.png'/></td>\n";
-} else {
-$disabled = "";
-echo "
-<td class=table_rows width=3% align=center>".$disabled."</td>\n";
-}
-if ("".$row["admin"]."" == 1) {
-echo "
-<td class=table_rows width=3% align=center><img src='../images/icons/accept.png'/></td>\n";
-} else {
-$admin = "";
-echo "
-<td class=table_rows width=3% align=center>".$admin."</td>\n";
-}
-if ("".$row["time_admin"]."" == 1) {
-echo "
-<td class=table_rows width=3% align=center><img src='../images/icons/accept.png'/></td>\n";
-} else {
-$time_admin = "";
-echo "
-<td class=table_rows width=3% align=center>".$time_admin."</td>\n";
-}
-if ("".$row["reports"]."" == 1) {
-echo "
-<td class=table_rows width=3% align=center><img src='../images/icons/accept.png'/></td>\n";
-} else {
-$reports = "";
-echo "
-<td class=table_rows width=3% align=center>".$reports."</td>\n";
-}
+    echo "    <td class=table_rows width=3% align=center>$disabled</td>\n";
+    echo "    <td class=table_rows width=3% align=center>$admin</td>\n";
+    echo "    <td class=table_rows width=3% align=center>$time_admin</td>\n";
+    echo "    <td class=table_rows width=3% align=center>$reports</td>\n";
 
-if ((strpos($user_agent, "MSIE 6")) || (strpos($user_agent, "MSIE 5")) || (strpos($user_agent, "MSIE 4")) || (strpos($user_agent, "MSIE 3"))) {
-
-echo "
-<td class=table_rows width=3% align=center><a style='color:#27408b;text-decoration:underline;'
-                                              title=\"Edit User: $empfullname\"
-    href=\"useredit.php?username=$empfullname&officename=".$row["office"]."\">Edit</a></td>\n";
-echo "
-<td class=table_rows width=3% align=center><a style='color:#27408b;text-decoration:underline;'
-                                              title=\"Change Password: $empfullname\"
-    href=\"chngpasswd.php?username=$empfullname&officename=".$row["office"]."\">Chg Pwd</a></td>\n";
-echo "
-<td class=table_rows width=3% align=center><a style='color:#27408b;text-decoration:underline;'
-                                              title=\"Delete User: $empfullname\"
-    href=\"userdelete.php?username=$empfullname&officename=".$row["office"]."\">Delete</a></td></tr>\n";
-
-} else {
-
-echo "
-<td class=table_rows width=3% align=center><a title=\"Edit User: $empfullname\"
-    href=\"useredit.php?username=$empfullname&officename=".$row["office"]."\">
-    <img border=0 src='../images/icons/application_edit.png'/></a></td>\n";
-echo "
-<td class=table_rows width=3% align=center><a title=\"Change Password: $empfullname\"
-    href=\"chngpasswd.php?username=$empfullname&officename=".$row["office"]."\"><img border=0
-                                                                                     src='../images/icons/lock_edit.png'/></a>
-</td>\n";
-echo "
-<td class=table_rows width=3% align=center><a title=\"Delete User: $empfullname\"
-    href=\"userdelete.php?username=$empfullname&officename=".$row["office"]."\">
-    <img border=0 src='../images/icons/delete.png'/></a></td></tr>\n";
-}
+    echo "    <td class=table_rows width=3% align=center><a title=\"Edit User: $empfullname\" href=\"useredit.php?username=$empfullname&officename=".$row["office"]."\"><img border=0 src='../images/icons/application_edit.png'/></a></td>\n";
+    echo "    <td class=table_rows width=3% align=center><a title=\"Change Password: $empfullname\" href=\"chngpasswd.php?username=$empfullname&officename=".$row["office"]."\"><img border=0 src='../images/icons/lock_edit.png'/></a></td>\n";
+    echo "    <td class=table_rows width=3% align=center><a title=\"Delete User: $empfullname\" href=\"userdelete.php?username=$empfullname&officename=".$row["office"]."\"><img border=0 src='../images/icons/delete.png'/></a></td></tr>\n";
 }
 echo "          </table></td></tr>\n";
 include '../footer.php';
