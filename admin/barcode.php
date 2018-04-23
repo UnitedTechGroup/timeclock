@@ -94,7 +94,6 @@ function do_render($value, $encoding) {
     );
     $cmd = "barcode " . join(" ", array_map("escapeshellarg", $cmd));
     $lineout = system($cmd, $rv);
-    error_log("$cmd -> '$lineout'");
     if ($rv != 0) {
         error_log("$cmd -> '$lineout'");
         croak(500, 'Bummer');
@@ -115,7 +114,6 @@ function do_render($value, $encoding) {
     );
     $cmd = "convert " . join(" ", array_map("escapeshellarg", $cmd));
     $lineout = system($cmd, $rv);
-    error_log("$cmd -> '$lineout'");
     if ($rv != 0) {
         error_log("$cmd -> '$lineout'");
         croak(500, 'Bummer');
@@ -135,7 +133,6 @@ function action_download($key) {
     }
 
     $file = "$barcode_cache_dir/$key.png";
-    error_log("Requesting: $file");
     if (is_file($file)) {
         header('Content-type: image/png');
         header('Content-disposition: attachment; filename="barcode.png"');
