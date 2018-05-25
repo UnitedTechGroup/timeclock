@@ -81,13 +81,6 @@ echo "              <tr><td bgcolor='$row_color' class=table_rows width=10% alig
                       addresses of the connecting computers when users punch-in/out, or when a time is manually added, edited, or deleted.
                       Default is \"<b>yes</b>\".
                   </td></tr>\n";
-$row_count++;
-$row_color = ($row_count % 2) ? $color2 : $color1;
-echo "              <tr><td bgcolor='$row_color' class=table_rows width=10% align=left style='padding-left:4px;' valign=top>disable_sysedit:</td>
-                  <td bgcolor='$row_color' class=table_rows width=10% align=left valign=top>$disable_sysedit</td>
-                  <td bgcolor='$row_color' class=table_rows width=80% align=left style='padding-left:10px;' valign=top>Choosing \"yes\" disables
-                      ALL access to the Edit System Settings page (sysedit.php). It can be re-enabled in config.inc.php. Default is \"<b>no</b>\".
-                 </td></tr>\n";
 $row_count = '0';
 $row_color = ($row_count % 2) ? $color2 : $color1;
 echo "              <tr><td nowrap style='border:solid #888888;border-width:0px 0px 1px 0px;' colspan=3>&nbsp;</td></tr>\n";

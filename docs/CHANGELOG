@@ -1,5 +1,8 @@
 
 PHP Timeclock  2.1.1  WORK IN PROGRESS
+  Potentially incompatible changes
+    - Remove sysedit.php, it is not maintained anymore and is just asking
+      for security problems.
   Bug fixes
     - Manual add/edit/delete punch could leave employee puynch table with
       dangling punch pointer. Update pointer after each modifucation.

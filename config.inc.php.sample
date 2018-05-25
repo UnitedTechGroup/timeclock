@@ -73,18 +73,6 @@ $restrict_ips = "no";
 $allowed_networks = array();
 
 
-/* Choose "yes" if you want to disable the Edit System Settings page within PHP
-   Timeclock. This page allows you to make *most* of your changes to the
-   config.inc.php file through the PHP Timeclock interface instead of editing
-   the config.inc.php file by hand. Many will view this as a possible security risk
-   and might would rather disable this functionality. Default is "no".
-
-   Since: v1.4
- */
-
-$disable_sysedit = "no";
-
-
 /* Choose whether to use encrypted passwords along with the usernames. Options are
    "yes" or "no". If "yes" is chosen, users will be required to enter a password
    whenever they change their status. Default is "no".
@@ -175,17 +163,14 @@ $email = "none";
 /* --- OPTIONAL CHANGES --- */
 
 
-/* Choose the way dates are displayed. DO NOT EDIT THESE DATE VARIABLES MANUALLY UNLESS YOU
-   KNOW WHAT YOU ARE DOING. Instead, change these date variables via the Edit System Settings
-   page in the Administration section of PHP Timeclock (sysedit.php). $datefmt default is
-   "n/j/y", $js_datefmt default is "M/d/yy", $tmp_datefmt default is "m/d/yy", and
-   $calendar_style default is "amer". You will need to choose date formats with matching
-   numbers, ie: if format number 10 is used for $datefmt, then format number 10 will need to
-   be used for $js_format and $tmp_format as well. "euro" will need to be chosen for date
-   format numbers 1-6, and "amer" will need to be chosen for date format numbers 7-12.
-   Again, if you are confused, i urge you to change these settings via the Edit System
-   Settings page in the Administration Section. Choosing mismatched options will lead to
-   much confusion and plenty of headaches later.
+/* Choose the way dates are displayed. $datefmt default is "n/j/y", $js_datefmt default is
+   "M/d/yy", $tmp_datefmt default is "m/d/yy", and $calendar_style default is "amer". You
+   will need to choose date formats with matching numbers, ie: if format number 10 is used
+   for $datefmt, then format number 10 will need to be used for $js_format and $tmp_format
+   as well. "euro" will need to be chosen for date format numbers 1-6, and "amer" will need
+   to be chosen for date format numbers 7-12. Again, if you are confused, i urge you to change
+   these settings via the Edit System Settings page in the Administration Section. Choosing
+   mismatched options will lead to much confusion and plenty of headaches later.
 
    Possibilities for these variables are:
 
