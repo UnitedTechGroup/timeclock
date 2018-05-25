@@ -8,7 +8,7 @@ if ($email != "none") {
     echo "<a class=footer_links href='mailto:$email'>$email</a>&nbsp;&#8226;&nbsp;";
 }
 
-echo "<a class=footer_links href='https://github.com/duelafn/timeclock'>$app_name&nbsp;$app_version</a></td></tr>\n";
+echo "<a class=footer_links href='https://github.com/UnitedTechGroup/timeclock'>$app_name&nbsp;$app_version</a></td></tr>\n";
 echo "      </table>\n";
 echo "    </td>\n";
 echo "  </tr>\n";
