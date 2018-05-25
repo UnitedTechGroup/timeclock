@@ -1,11 +1,13 @@
 
-PHP Timeclock  2.1.1  WORK IN PROGRESS
+PHP Timeclock  2.2.0  WORK IN PROGRESS
+  New features
+    - Make notes editable when modifying a time
   Potentially incompatible changes
     - Remove sysedit.php, it is not maintained anymore and is just asking
       for security problems.
   Bug fixes
-    - Manual add/edit/delete punch could leave employee puynch table with
-      dangling punch pointer. Update pointer after each modifucation.
+    - Manual add/edit/delete punch could leave employee punch table with
+      dangling punch pointer. Update pointer after each modification.
 
 PHP Timeclock  2.1.0  released 2018-04-23
   New features
