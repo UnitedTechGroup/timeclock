@@ -36,7 +36,7 @@ list of tested configurations.
 ## PHP Timeclock source credits
 
 This source distribution is the result of combining two separate projects,
-and the contributions of [various other fine people](docs/CREDITS).
+and the contributions of [various other fine people](docs/CREDITS.md).
 
 ### Timeclock - http://timeclock.sf.net/
 
