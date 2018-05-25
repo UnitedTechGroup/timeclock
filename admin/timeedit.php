@@ -657,6 +657,7 @@ if ($request == 'GET') {
                             "((fullname = ?) AND (`inout` = ?) AND (timestamp = ?) AND (notes = ?))",
                             array($final_username[$x], $final_inout[$x], $final_mysql_timestamp[$x], $final_notes[$x])
                         );
+                        tc_refresh_latest_emp_punch($final_username[$x]);
 
                         // add the results to the audit table
                         $data = array(

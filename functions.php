@@ -149,6 +149,16 @@ function tc_update_strings($db, $keyvals, $where = '1=1', $bind = array(), $type
     tc_execute("UPDATE ${db_prefix}$db SET $places WHERE $where", array_merge($values, $bind), $types);
 }
 
+// Function to update the `employees` table with the latest punch time...
+// When we add or edit punches, the latest punch may change which leads to
+// errors or failures in the dsplay. This brute-forces (has an index, so
+// should be fast) the employees table to point to the most recent punch.
+function tc_refresh_latest_emp_punch($empname) {
+    global $db_prefix;
+    tc_execute("UPDATE ${db_prefix}employees SET `tstamp` = (SELECT MAX(timestamp) FROM info WHERE fullname = ?) WHERE empfullname = ?", [ $empname, $empname ], 'ss');
+}
+
+
 function btag($tag, $attr = array()) {
     $begin = array(htmlentities($tag));
     foreach ($attr as $key => $value) {

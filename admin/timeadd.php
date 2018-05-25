@@ -567,6 +567,7 @@ if ($request == 'GET') {
             "timestamp" => $timestamp,
             "notes"     => trim("$post_notes"),
         ));
+        tc_refresh_latest_emp_punch($post_username);
 
         // add the results to the audit table
 

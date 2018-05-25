@@ -488,6 +488,7 @@ if ($request == 'GET') {
 
                     // delete the time from the info table for $post_username
                     tc_delete("info", "fullname = ? AND timestamp = ?", array($final_username[$x], $final_mysql_timestamp[$x]));
+                    tc_refresh_latest_emp_punch($final_username[$x]);
 
                     // add the results to the audit table
                     $data = array(

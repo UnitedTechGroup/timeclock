@@ -1,4 +1,9 @@
 
+PHP Timeclock  2.1.1  WORK IN PROGRESS
+  Bug fixes
+    - Manual add/edit/delete punch could leave employee puynch table with
+      dangling punch pointer. Update pointer after each modifucation.
+
 PHP Timeclock  2.1.0  released 2018-04-23
   New features
     - Track punch office/location independent of IP address
