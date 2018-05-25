@@ -535,11 +535,10 @@ if ($request == 'GET') {
                     size='7' maxlength='$timefmt_size' name='edit_time_textbox[$x]' value=\"$edit_time_textbox[$x]\"></td>\n";
                     echo "                <td nowrap align=left style='width:7%;padding-left:15px;background-color:$row_color;color:" . $row["color"] . "'>$final_inout[$x]</td>\n";
                     echo "                <td nowrap align=left style='padding-left:20px;' width=4% bgcolor='$row_color'>$final_time[$x]</td>\n";
-                    echo "                <td style='padding-left:25px;' bgcolor='$row_color'>$final_notes[$x]</td>\n";
+                    echo "                <td style='padding-left:25px;' bgcolor='$row_color'><input type='text' size='15' name='final_notes[$x]' value=\"$final_notes[$x]\"></td>\n";
                     echo "              </tr>\n";
                     echo "              <input type='hidden' name='final_username[$x]' value=\"$final_username[$x]\">\n";
                     echo "              <input type='hidden' name='final_inout[$x]' value=\"$final_inout[$x]\">\n";
-                    echo "              <input type='hidden' name='final_notes[$x]' value=\"$final_notes[$x]\">\n";
                     echo "              <input type='hidden' name='final_time[$x]' value=\"$final_time[$x]\">\n";
                     echo "              <input type='hidden' name='final_mysql_timestamp[$x]' value=\"$final_mysql_timestamp[$x]\">\n";
                     $row_count++;
@@ -653,9 +652,9 @@ if ($request == 'GET') {
 
                         tc_update_strings(
                             "info",
-                            array("timestamp" => $new_tstamp[$x]),
-                            "((fullname = ?) AND (`inout` = ?) AND (timestamp = ?) AND (notes = ?))",
-                            array($final_username[$x], $final_inout[$x], $final_mysql_timestamp[$x], $final_notes[$x])
+                            array("timestamp" => $new_tstamp[$x], "notes" => $final_notes[$x]),
+                            "((fullname = ?) AND (`inout` = ?) AND (timestamp = ?))",
+                            array($final_username[$x], $final_inout[$x], $final_mysql_timestamp[$x])
                         );
                         tc_refresh_latest_emp_punch($final_username[$x]);
 
@@ -820,11 +819,10 @@ if ($request == 'GET') {
                     size='7' maxlength='$timefmt_size' name='edit_time_textbox[$x]'></td>\n";
                 echo "                <td nowrap align=left style='width:7%;padding-left:15px;background-color:$row_color;color:" . $row["color"] . "'>$inout[$x]</td>\n";
                 echo "                <td nowrap align=left style='padding-left:20px;' width=4% bgcolor='$row_color'>$time[$x]</td>\n";
-                echo "                <td style='padding-left:25px;' bgcolor='$row_color'>$notes[$x]</td>\n";
+                echo "                <td style='padding-left:25px;' bgcolor='$row_color'><input type='text' size='15' name='final_notes[$x]' value=\"$notes[$x]\"></td>\n";
                 echo "              </tr>\n";
                 echo "              <input type='hidden' name='final_username[$x]' value=\"$username[$x]\">\n";
                 echo "              <input type='hidden' name='final_inout[$x]' value=\"$inout[$x]\">\n";
-                echo "              <input type='hidden' name='final_notes[$x]' value=\"$notes[$x]\">\n";
                 echo "              <input type='hidden' name='final_mysql_timestamp[$x]' value=\"$mysql_timestamp[$x]\">\n";
                 echo "              <input type='hidden' name='final_time[$x]' value=\"$time[$x]\">\n";
                 $row_count++;
