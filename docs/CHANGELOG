@@ -1,5 +1,5 @@
 
-PHP Timeclock  2.2.0  WORK IN PROGRESS
+PHP Timeclock  2.2.0  released 2018-06-05
   New features
     - Make notes editable when modifying a time
   Potentially incompatible changes
@@ -8,6 +8,7 @@ PHP Timeclock  2.2.0  WORK IN PROGRESS
   Bug fixes
     - Manual add/edit/delete punch could leave employee punch table with
       dangling punch pointer. Update pointer after each modification.
+    - Fixed undefined index when manual_clockin is disabled (from Tien Tran)
 
 PHP Timeclock  2.1.0  released 2018-04-23
   New features
