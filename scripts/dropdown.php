@@ -8,17 +8,18 @@
 
         <?php
 
-        @$office_name = $_GET['officename'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            @$office_name = $_POST['office_name'];
+        } else {
+            @$office_name = $_GET['officename'];
+        }
 
         $query = "select * from ".$db_prefix."offices";
         $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
 
         $cnt=1;
         while ($row=mysqli_fetch_array($result)) {
-          if (isset($abc)) {
-          echo "select.options[$cnt] = new Option(\"".$row['officename']."\");\n";
-          echo "select.options[$cnt].value = \"".$row['officename']."\";\n";
-          } elseif ("".$row['officename']."" == stripslashes($office_name)) {
+          if ("".$row['officename']."" == stripslashes($office_name)) {
           echo "select.options[$cnt] = new Option(\"".$row['officename']."\",\"".$row['officename']."\", true, true);\n";
           } else {
           echo "select.options[$cnt] = new Option(\"".$row['officename']."\");\n";
@@ -28,6 +29,7 @@
         }
         ((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);
         ?>
+        group_names();
     }
 
     function group_names() {

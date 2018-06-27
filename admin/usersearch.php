@@ -5,10 +5,6 @@ require '../common.php';
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if ($request !== 'POST') {
-    include 'header_get.php';
-    include 'topmain.php';
-}
 echo "<title>$title - User Search</title>\n";
 
 if (!isset($_SESSION['valid_user'])) {
@@ -23,6 +19,9 @@ if (!isset($_SESSION['valid_user'])) {
     echo "      </table><br /></td></tr></table>\n";
     exit;
 }
+
+include 'header.php';
+include 'topmain.php';
 
 if ($request !== 'POST') {
 
@@ -104,14 +103,12 @@ if ($request !== 'POST') {
     echo "              <tr><td width=30><input type='image' name='submit' value='Create User' align='middle'
                       src='../images/buttons/search_button.png'></td><td><a href='useradmin.php'><img src='../images/buttons/cancel_button.png' 
                       border='0'></td></tr></table></form></td></tr>\n";
+    echo '<script language="JavaScript">office_names();</script>';
     include '../footer.php';
     exit;
 }
 
 elseif ($request == 'POST') {
-
-include 'header_post.php';
-include 'topmain.php';
 
 @$post_username = $_POST['post_username'];
 @$display_name = $_POST['display_name'];
@@ -255,7 +252,7 @@ if (isset($evil_input)) {
     echo "                      </select></td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group:</td><td colspan=2 width=80%
                       style='padding-left:20px;'>
-                      <select name='group_name' onfocus='group_names();'>
+                      <select name='group_name'>
                         <option selected>$group_name</option>\n";
     echo "                      </select></td></tr>\n";
     echo "              <tr><td class=table_rows align=right colspan=3 style='color:#27408b;font-family:Tahoma;'><a class=footer_links
@@ -266,6 +263,7 @@ if (isset($evil_input)) {
     echo "              <tr><td width=30><input type='image' name='submit' value='Create User' align='middle'
                       src='../images/buttons/search_button.png'></td><td><a href='useradmin.php'><img src='../images/buttons/cancel_button.png' 
                       border='0'></td></tr></table></form></td></tr>\n";
+    echo '<script language="JavaScript">office_names();</script>';
     include '../footer.php';
     exit;
 
@@ -497,7 +495,7 @@ echo "
             <td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group:</td>
             <td colspan=2 width=80%
                 style='padding-left:20px;'>
-                <select name='group_name' onfocus='group_names();'>
+                <select name='group_name'>
                     <option selected>$group_name</option>
                     \n";
                     echo " </select></td>
@@ -529,10 +527,13 @@ echo "
                                              border='0'></td>
         </tr>
     </table>
-</form></td></tr>\n";include '../footer.php'; exit;
+</form></td></tr>\n";
+    echo '<script language="JavaScript">office_names();</script>';
+    include '../footer.php'; exit;
 } else {
 
 echo "            </table></td></tr>\n";
+echo '<script language="JavaScript">office_names();</script>';
 include '../footer.php'; exit;
 }}}}
 ?>

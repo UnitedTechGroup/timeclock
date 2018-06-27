@@ -5,10 +5,6 @@ require '../common.php';
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if ($request !== 'POST') {
-    include 'header_get.php';
-    include 'topmain.php';
-}
 echo "<title>$title - Delete Office</title>\n";
 
 if (!isset($_SESSION['valid_user'])) {
@@ -23,6 +19,9 @@ if (!isset($_SESSION['valid_user'])) {
     echo "      </table><br /></td></tr></table>\n";
     exit;
 }
+
+include 'header.php';
+include 'topmain.php';
 
 if ($request == 'GET') {
 
@@ -158,6 +157,7 @@ if ($request == 'GET') {
         echo "              <tr><td width=30><input type='image' name='submit' value='Delete Office'
                       src='../images/buttons/next_button.png'></td><td><a href='officeadmin.php'>
                       <img src='../images/buttons/cancel_button.png' border='0'></td></tr></table></form></td></tr>\n";
+        echo '<script language="JavaScript">office_names();</script>';
         include '../footer.php';
         exit;
 
@@ -186,14 +186,12 @@ if ($request == 'GET') {
         echo "              <tr><td width=30><input type='image' name='submit' value='Delete Office'
                       src='../images/buttons/next_button.png'></td><td><a href='officeadmin.php'>
                       <img src='../images/buttons/cancel_button.png' border='0'></td></tr></table></form></td></tr>\n";
+        echo '<script language="JavaScript">office_names();</script>';
         include '../footer.php';
         exit;
     }
     exit;
 } elseif ($request == 'POST') {
-
-    include 'header_post.php';
-    include 'topmain.php';
 
     $post_officename = $_POST['post_officename'];
     @$office_name = $_POST['office_name'];
@@ -383,13 +381,14 @@ if ($request == 'GET') {
         echo "                <select name='office_name' onchange='group_names();'>
                   <option selected>Choose One</option>\n";
         echo "                </select>&nbsp;&nbsp;&nbsp;Which Group?\n";
-        echo "                <select name='group_name' onfocus='group_names();'>\n";
+        echo "                <select name='group_name'>\n";
         echo "                </select></td></tr></table>\n";
 
         echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
         echo "              <tr><td width=30><input type='image' name='submit' value='Delete Office'
                       src='../images/buttons/next_button.png'></td><td><a href='officeadmin.php'>
                       <img src='../images/buttons/cancel_button.png' border='0'></td></tr></table></form></td></tr>\n";
+        echo '<script language="JavaScript">office_names();</script>';
         include '../footer.php';
         exit;
 
@@ -418,6 +417,7 @@ if ($request == 'GET') {
         echo "              <tr><td height=20 align=left>&nbsp;</td></tr>\n";
         echo "              <tr><td><a href='officeadmin.php'><img src='../images/buttons/done_button.png' border='0'></td></tr></table></td>
               </tr>\n";
+        echo '<script language="JavaScript">office_names();</script>';
         include '../footer.php';
         exit;
     }
