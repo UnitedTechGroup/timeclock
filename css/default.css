@@ -288,3 +288,7 @@ a:hover {
     color: #853d27;
 }
 
+#currenttime {
+    font-size: larger;
+    padding-right: 1em;
+}

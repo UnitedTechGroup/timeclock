@@ -253,6 +253,17 @@ $show_display_name = "no";
 $display_punch_times = "yes";
 
 
+/* Display current time, set to "server" to display a clock with the
+   current server time. Set to "client" to display a cloc with the current
+   client time. Set to anything else to not display the current time.
+   Default is "no".
+
+   Since: v2.3.0
+ */
+
+$display_current_time = "no";
+
+
 /* Display punch-in/out times for only a certain office on the main page of the application.
    Replace "all" with the office you wish to display below. Default is "all".
 

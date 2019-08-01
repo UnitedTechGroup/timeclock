@@ -50,14 +50,13 @@ if ($use_client_tz == "yes") {
 echo "<link rel='stylesheet' type='text/css' media='screen' href='css/default.css' />\n";
 echo "<link rel='stylesheet' type='text/css' media='screen' href='css/local.css' />\n";
 echo "<link rel='stylesheet' type='text/css' media='print' href='css/print.css' />\n";
+echo "<script language=\"javascript\" src=\"scripts/common.js\"></script>\n";
 
 // set refresh rate for each page //
-
 if ($refresh == "none") {
     echo "</head>\n";
 } else {
     echo "<meta http-equiv='refresh' content=\"$refresh;URL=timeclock.php\">\n";
-    echo "<script language=\"javascript\" src=\"scripts/pnguin_timeclock.js\"></script>\n";
     echo "</head>\n";
 }
 

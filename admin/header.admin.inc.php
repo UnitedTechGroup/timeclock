@@ -49,7 +49,7 @@ if ($use_client_tz == "yes") {
 <link rel="stylesheet" type="text/css" media="screen" href="../css/local.css" />
 <link rel="stylesheet" type="text/css" media="print" href="../css/print.css" />
 <script language="javascript" src="../scripts/jquery-3.1.1.min.js"></script>
-<script language="javascript" src="../scripts/pnguin.js"></script>
+<script language="javascript" src="../scripts/common.js"></script>
 <script language="javascript" src="../scripts/cookies.js"></script>
 <script language="javascript" src="../scripts/admin.js"></script>
 <script type="text/javascript" src="../scripts/CalendarPopup.js"></script>

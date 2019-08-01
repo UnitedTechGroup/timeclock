@@ -49,8 +49,20 @@ if ($date_link == "none") {
 // display today's date in top right of each page. This will link to $date_link you setup in config.inc.php. //
 
 $todaydate = date('F j, Y');
-echo "$todaydate&nbsp;&nbsp;</a></td></tr>\n";
+echo "$todaydate&nbsp;&nbsp;</a><span id=\"currenttime\"></span></td></tr>\n";
 echo "</table>\n";
+
+if ($display_current_time === "server" or $display_current_time === "client") {
+    $servertime = time();
+    echo tag("script", <<<SCRIPT
+var serverOffset = 1000 * $servertime - Date.now();
+ready(function(){
+    update_time('$display_current_time', document.getElementById('currenttime'), serverOffset, true);
+});
+SCRIPT
+    , array("type" => "text/javascript")
+    );
+}
 
 // display the topbar //
 
