@@ -245,6 +245,14 @@ $display_current_users = "no";
 $show_display_name = "no";
 
 
+/* Display punch-in/out times or just in/out status. Default is "yes".
+
+   Since: v2.3.0
+ */
+
+$display_punch_times = "yes";
+
+
 /* Display punch-in/out times for only a certain office on the main page of the application.
    Replace "all" with the office you wish to display below. Default is "all".
 

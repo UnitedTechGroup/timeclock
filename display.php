@@ -28,8 +28,12 @@ while ($row = mysqli_fetch_array($result)) {
                                     href='$current_page?sortcolumn=empfullname&sortdirection=$sortnewdirection'>Name</a></td>\n";
             echo "                <td nowrap width=7% align=left style='padding-left:10px;'><a style='font-size:11px;color:#27408b;'
                                     href='$current_page?sortcolumn=inout&sortdirection=$sortnewdirection'>In/Out</a></td>\n";
-            echo "                <td nowrap width=5% align=right style='padding-right:10px;'><a style='font-size:11px;color:#27408b;'
-                                    href='$current_page?sortcolumn=tstamp&sortdirection=$sortnewdirection'>Time</a></td>\n";
+
+            if (yes_no_bool($display_punch_times)) {
+                echo "                <td nowrap width=5% align=right style='padding-right:10px;'><a style='font-size:11px;color:#27408b;'
+                                        href='$current_page?sortcolumn=tstamp&sortdirection=$sortnewdirection'>Time</a></td>\n";
+            }
+
             echo "                <td nowrap width=5% align=right style='padding-left:10px;'><a style='font-size:11px;color:#27408b;'
                                     href='$current_page?sortcolumn=tstamp&sortdirection=$sortnewdirection'>Date</a></td>\n";
 
@@ -64,8 +68,12 @@ while ($row = mysqli_fetch_array($result)) {
                             text-decoration:underline;'>Name</td>\n";
         echo "                <td nowrap width=7% align=left style='padding-left:10px;font-size:11px;color:#27408b;
                             text-decoration:underline;'>In/Out</td>\n";
-        echo "                <td nowrap width=5% align=right style='padding-right:10px;font-size:11px;color:#27408b;
-                            text-decoration:underline;'>Time</td>\n";
+
+        if (yes_no_bool($display_punch_times)) {
+            echo "                <td nowrap width=5% align=right style='padding-right:10px;font-size:11px;color:#27408b;
+                                text-decoration:underline;'>Time</td>\n";
+        }
+
         echo "                <td nowrap width=5% align=right style='padding-left:10px;font-size:11px;color:#27408b;
                             text-decoration:underline;'>Date</td>\n";
 
@@ -106,7 +114,11 @@ while ($row = mysqli_fetch_array($result)) {
 
     echo "                <td nowrap align=left width=7% style='background-color:$row_color;color:" . $row["color"] . ";
                         padding-left:10px;'>" . $row["inout"] . "</td>\n";
-    echo "                <td nowrap align=right width=5% bgcolor='$row_color' style='padding-right:10px;'>" . $time . "</td>\n";
+
+    if (yes_no_bool($display_punch_times)) {
+        echo "                <td nowrap align=right width=5% bgcolor='$row_color' style='padding-right:10px;'>" . $time . "</td>\n";
+    }
+
     echo "                <td nowrap align=right width=5% bgcolor='$row_color' style='padding-left:10px;'>" . $date . "</td>\n";
 
     if (yes_no_bool($display_office_name)) {
