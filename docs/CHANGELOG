@@ -1,4 +1,14 @@
 
+PHP Timeclock  2.3.0  released 2019-08-01
+  New features
+    - New option $display_punch_times: set to "no" to show in/out status
+      only, not actual punch times
+    - New option $display_current_time: set to "server" or "client" to show
+      the current time in the banner
+    - Hide metar advertisement if no sites configured
+  Bug fixes
+    - Fixed group selection in user editor
+
 PHP Timeclock  2.2.0  released 2018-06-05
   New features
     - Make notes editable when modifying a time
