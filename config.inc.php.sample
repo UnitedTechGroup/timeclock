@@ -107,9 +107,13 @@ $barcode_clockin = "yes";
    Default type "code39".
    Default length "10".
 
-   Valid types: null, "code39"
+   Valid types: null, "code39", "ean"
+
+   Warning: Valid lengths for ean codes are: 8 or 13 and check digits must
+   be present and correctly calculated!
 
    New in: v2.1
+   Changed in: 2.4, Added "ean"
  */
 
 $barcode_type = "code39";

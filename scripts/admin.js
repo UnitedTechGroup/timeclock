@@ -7,11 +7,23 @@ function nonce(alphabet, length) {
     return n;
 }
 
+function ean_checkdigit(str) {
+    var rv = 0;
+    for (let i = str.length; i-- > 0;) {
+        rv = rv + parseInt(str.charAt(i), 10) * (1+(2*((str.length-i) % 2)));
+    }
+    return ((10 - (rv % 10)) % 10).toString();
+}
+
 function gen_barcode(target, style, length) {
     var code = "";
 
     if (style === "code39") {
         code = nonce("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length);
+    }
+    if (style === "ean") {
+        code = nonce("0123456789", length-1);
+        code += ean_checkdigit(code);
     }
 
     $(target).val(code);

@@ -56,15 +56,14 @@ function do_render($value, $encoding) {
     global $barcode_cache_age;
 
     if (preg_match('/[^a-zA-Z0-9]/', $value)) {
-        croak(400, 'Invalid value');
+        croak(400, 'Invalid barcode value');
     }
 
-    $grp = array();
-    if (!preg_match('/^(code39|EAN|UPC)$/', $encoding, $grp)) {
-        croak(400, 'Invalid value');
-    }
-    $encoding = $grp[1];
-
+    $encoding = strtolower($encoding);
+    if ($encoding === 'code39')  { $encoding = 'code39'; }
+    elseif ($encoding === 'ean') { $encoding = 'EAN'; }
+    elseif ($encoding === 'upc') { $encoding = 'UPC'; }
+    else { croak(400, 'Invalid barcode encoding'); }
 
     # Regardless of what $value is, we want the key to be safe:
     $key = hash("sha256", $value);
