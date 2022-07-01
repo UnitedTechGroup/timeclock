@@ -1,4 +1,8 @@
 
+PHP Timeclock  2.4.0  released 2022-06-29
+  New features
+    - Support "ean" format barcodes (length 8 and 13, requires check digit)
+
 PHP Timeclock  2.3.0  released 2019-08-01
   New features
     - New option $display_punch_times: set to "no" to show in/out status
