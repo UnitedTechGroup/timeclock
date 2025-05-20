@@ -32,9 +32,7 @@ if ((!isset($_SESSION['valid_user'])) && (!isset($_SESSION['time_admin_valid_use
 }
 
 if ($request == 'GET') {
-
     if (!isset($_GET['username'])) {
-
         echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
         echo "  <tr class=right_main_text><td height=10 align=center valign=top scope=row class=title_underline>PHP Timeclock Error!</td></tr>\n";
         echo "  <tr class=right_main_text>\n";
@@ -48,7 +46,6 @@ if ($request == 'GET') {
     }
 
     $get_user = $_GET['username'];
-
     disabled_acct($get_user);
 
     echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
@@ -100,8 +97,6 @@ if ($request == 'GET') {
         $username = "" . $row['empfullname'] . "";
         $displayname = "" . $row['displayname'] . "";
     }
-
-    $get_user = $_GET['username'];
 
     echo "    <td align=left class=right_main scope=col>\n";
     echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
@@ -156,8 +151,9 @@ if ($request == 'GET') {
                       border='0'></td></tr></table></form></td></tr>\n";
     include '../footer.php';
     exit;
-} elseif ($request == 'POST') {
+}
 
+elseif ($request == 'POST') {
     $get_user = $_POST['get_user'];
     $post_username = $_POST['post_username'];
     $post_displayname = $_POST['post_displayname'];

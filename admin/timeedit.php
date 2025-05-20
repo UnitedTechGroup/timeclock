@@ -47,8 +47,7 @@ if ($request == 'GET') {
         exit;
     }
 
-    $get_user = stripslashes($_GET['username']);
-
+    $get_user = $_GET['username'];
     disabled_acct($get_user);
 
     echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
@@ -95,18 +94,11 @@ if ($request == 'GET') {
                 alt='Upgrade Database' />&nbsp;&nbsp;&nbsp;<a class=admin_headings href='dbupgrade.php'>Upgrade Database</a></td></tr>\n";
     echo "      </table></td>\n";
 
-    $get_user = addslashes($get_user);
-
-    $query = "select * from " . $db_prefix . "employees where empfullname = '" . $get_user . "' order by empfullname";
-    $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-
+    $result = tc_select("empfullname, displayname", "employees", "empfullname = ?", $get_user);
     while ($row = mysqli_fetch_array($result)) {
-
-        $username = stripslashes("" . $row['empfullname'] . "");
-        $displayname = stripslashes("" . $row['displayname'] . "");
+        $username = "" . $row['empfullname'];
+        $displayname = "" . $row['displayname'];
     }
-    ((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);
-    $get_user = stripslashes($get_user);
 
     echo "    <td align=left class=right_main scope=col>\n";
     echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
@@ -148,9 +140,9 @@ if ($request == 'GET') {
     exit;
 } elseif ($request == 'POST') {
 
-    $get_user = stripslashes($_POST['get_user']);
-    $post_username = stripslashes($_POST['post_username']);
-    $post_displayname = stripslashes($_POST['post_displayname']);
+    $get_user = $_POST['get_user'];
+    $post_username = $_POST['post_username'];
+    $post_displayname = $_POST['post_displayname'];
     $post_date = $_POST['post_date'];
     @$final_username = $_POST['final_username'];
     @$final_inout = $_POST['final_inout'];
@@ -164,18 +156,10 @@ if ($request == 'GET') {
     $row_count = '0';
     $cnt = '0';
 
-    $get_user = addslashes($get_user);
-    $post_username = addslashes($post_username);
-    $post_displayname = addslashes($post_displayname);
-
     // begin post validation //
 
     if (!empty($get_user)) {
-        $query = "select * from " . $db_prefix . "employees where empfullname = '" . $get_user . "'";
-        $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-        while ($row = mysqli_fetch_array($result)) {
-            $tmp_get_user = "" . $row['empfullname'] . "";
-        }
+        $tmp_get_user = tc_select_value("empfullname", "employees", "empfullname = ?", $get_user);
         if (!isset($tmp_get_user)) {
             echo "Something is fishy here.\n";
             exit;
@@ -183,11 +167,7 @@ if ($request == 'GET') {
     }
 
     if (!empty($post_username)) {
-        $query = "select * from " . $db_prefix . "employees where empfullname = '" . $post_username . "'";
-        $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-        while ($row = mysqli_fetch_array($result)) {
-            $tmp_username = "" . $row['empfullname'] . "";
-        }
+        $tmp_username = tc_select_value("empfullname", "employees", "empfullname = ?", $post_username);
         if (!isset($tmp_username)) {
             echo "Something is fishy here.\n";
             exit;
@@ -195,24 +175,12 @@ if ($request == 'GET') {
     }
 
     if (!empty($post_displayname)) {
-        $query = "select * from " . $db_prefix . "employees where empfullname = '" . $post_username . "' and displayname = '" . $post_displayname . "'";
-        $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-        while ($row = mysqli_fetch_array($result)) {
-            $tmp_post_displayname = "" . $row['displayname'] . "";
-        }
+        $tmp_post_displayname = tc_select_value("displayname", "employees", "empfullname = ? AND displayname = ?", array($post_username, $post_displayname));
         if (!isset($tmp_post_displayname)) {
             echo "Something is fishy here.\n";
             exit;
         }
     }
-
-    // end post validation //
-
-    $get_user = stripslashes($get_user);
-    $post_username = stripslashes($post_username);
-    $post_displayname = stripslashes($post_displayname);
-
-    // begin post validation //
 
     if ($get_user != $post_username) {
         exit;
@@ -376,10 +344,6 @@ if ($request == 'GET') {
             // end post validation //
 
             for ($x = 0; $x < $final_num_rows; $x++) {
-
-                $final_username[$x] = stripslashes($final_username[$x]);
-                $tmp_username = stripslashes($tmp_username);
-
                 if ($final_username[$x] != $tmp_username) {
                     echo "Something is fishy heree.\n";
                     exit;
@@ -390,26 +354,17 @@ if ($request == 'GET') {
                     exit;
                 }
 
-                $query_sel = "select * from " . $db_prefix . "punchlist where punchitems = '" . $final_inout[$x] . "'";
-                $result_sel = mysqli_query($GLOBALS["___mysqli_ston"], $query_sel);
 
-                while ($row = mysqli_fetch_array($result_sel)) {
-                    $punchitems = "" . $row['punchitems'] . "";
-                }
-                ((mysqli_free_result($result_sel) || (is_object($result_sel) && (get_class($result_sel) == "mysqli_result"))) ? true : false);
+                $punchitems = tc_select_value("punchitems", "punchlist", "punchitems = ?", $final_inout[$x]);
                 if (!isset($punchitems)) {
                     echo "Something is fishy here.\n";
                     exit;
                 }
 
-                $final_notes[$x] = preg_replace("[^a-zA-Z0-9 \,\.\?-]", "", $final_notes[$x]);
-                $final_username[$x] = addslashes($final_username[$x]);
-
-                $query5 = "select * from " . $db_prefix . "info where (fullname = '" . $final_username[$x] . "') and (timestamp = '" . $final_mysql_timestamp[$x] . "') and
-           (`inout` = '" . $final_inout[$x] . "')";
-                $result5 = mysqli_query($GLOBALS["___mysqli_ston"], $query5);
-                @$tmp_num_rows = mysqli_num_rows($result5);
-
+                $tmp_num_rows = tc_select_value(
+                    "COUNT(1)", "info", "fullname = ? AND timestamp = ? AND `inout` = ?",
+                    array($final_username[$x], $final_mysql_timestamp[$x], $final_inout[$x])
+                );
                 if ((isset($tmp_num_rows)) && (@$tmp_num_rows != '1')) {
                     echo "Something is fishy here.\n";
                     exit;
@@ -420,14 +375,13 @@ if ($request == 'GET') {
                     // configure timestamp to insert/update //
 
                     if ($calendar_style == "euro") {
-                        //  $post_date = "$day/$month/$year";
-                        $post_date = "$month/$day/$year";
+                        $post_date = "$day/$month/$year";
                     } elseif ($calendar_style == "amer") {
                         $post_date = "$month/$day/$year";
                     }
 
-                    $tmp_timestamp = strtotime($post_date) - @$tzo;
-                    $tmp_calc = $timestamp + 86400 - @$tzo;
+                    $tmp_timestamp = strtotime("$month/$day/$year") - @$tzo;
+                    $tmp_calc = $timestamp + 86400;
 
                     if (($tmp_timestamp != $timestamp) || ($tmp_calc != $calc)) {
                         echo "Something is fishy here.\n";
@@ -437,7 +391,7 @@ if ($request == 'GET') {
                     // end post validation //
 
                     if ($timefmt_24hr == '0') {
-                        
+
                         // 12 Hour with or without leading zeros with upper or lower case AM or PM //
                         // Regex was /^([0-9]?[0-9])+:+([0-9]+[0-9])+([a|p]+m)$/i                  //
                         // Now       /^([0-1]?[0-9])+:+([0-5]+[0-9])+([a|p]+m)$/i                  //
@@ -459,14 +413,14 @@ if ($request == 'GET') {
                             }
                         }
                     } elseif ($timefmt_24hr == '1') {
-                        
+
                         // 24 Hour with or without leading zeros with upper or lower case AM or PM //
                         // Regex was /^([0-9]?[0-9])+:+([0-9]+[0-9])+([a|p]+m)$/i                  //
                         // Now       /^([0-2]?[0-9])+:+([0-5]+[0-9])+$/                            //
                         //    First digit of hours in 24 hour format can not be > 2.               //
                         //    First digit of minutes can not be > 5 any time.                      //
                         //    No am/pm in 24 hour format.  No need for case indifferent /i.        //
-                        
+
                         if (!preg_match('/' . "^([0-2]?[0-9])+:+([0-5]+[0-9])+$" . '/', $edit_time_textbox[$x], $time_regs)) {
                             $evil_time = '1';
 
@@ -509,10 +463,6 @@ if ($request == 'GET') {
 
                 // configure date to display correctly //
 
-                if ($calendar_style == "euro") {
-                    $post_date = "$day/$month/$year";
-                }
-
                 echo "                <th class=rightside_heading nowrap halign=left colspan=4><img src='../images/icons/clock_edit.png' />&nbsp;&nbsp;&nbsp;Edit
                   Time for $post_username on $post_date</th></tr>\n";
                 echo "              <tr><td height=15></td></tr>\n";
@@ -522,10 +472,7 @@ if ($request == 'GET') {
                 echo "                  <td style='padding-left:25px;' class=column_headings><u>Notes</u></td></tr>\n";
 
                 for ($x = 0; $x < $final_num_rows; $x++) {
-
                     $row_color = ($row_count % 2) ? $color1 : $color2;
-                    $final_username[$x] = stripslashes($final_username[$x]);
-
                     echo "              <tr class=display_row>\n";
                     echo "                <td nowrap width=1% style='padding-right:5px;padding-left:10px;' class=table_rows><input type='text'
                     size='7' maxlength='$timefmt_size' name='edit_time_textbox[$x]' value=\"$edit_time_textbox[$x]\"></td>\n";
@@ -570,10 +517,6 @@ if ($request == 'GET') {
 
                 // configure date to display correctly //
 
-                if ($calendar_style == "euro") {
-                    $post_date = "$day/$month/$year";
-                }
-
                 echo "                <th class=rightside_heading nowrap halign=left colspan=5><img src='../images/icons/clock_edit.png' />&nbsp;&nbsp;&nbsp;Edited
                   Time for $post_username on $post_date</th></tr>\n";
                 echo "              <tr><td height=15></td></tr>\n";
@@ -603,53 +546,31 @@ if ($request == 'GET') {
 
                 for ($x = 0; $x < $final_num_rows; $x++) {
                     if ($edit_time_textbox[$x] != '') {
-
                         $row_color = ($row_count % 2) ? $color1 : $color2;
-
-                        $query = "select * from " . $db_prefix . "employees where empfullname = '" . $final_username[$x] . "'";
-                        $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-
-                        while ($row = mysqli_fetch_array($result)) {
-                            $tmp_tstamp = "" . $row['tstamp'] . "";
-                        }
+                        $tmp_tstamp = tc_select_value("tstamp", "employees", "empfullname = ?", $final_username[$x]);
 
                         // configure timestamp to insert/update //
-
-                        if ($calendar_style == "euro") {
-                            //  $post_date = "$day/$month/$year";
-                            $post_date = "$month/$day/$year";
-                        } elseif ($calendar_style == "amer") {
-                            $post_date = "$month/$day/$year";
-                        }
-
-                        $new_tstamp[$x] = strtotime($post_date . " " . $edit_time_textbox[$x]) - $tzo;
+                        $new_tstamp[$x] = strtotime("$month/$day/$year " . $edit_time_textbox[$x]) - $tzo;
 
                         if ($new_tstamp[$x] > $tmp_tstamp) {
-                            $query2 = "update " . $db_prefix . "employees set tstamp = '" . $new_tstamp[$x] . "' where empfullname = '" . $final_username[$x] . "'";
-                            $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $query2);
+                            tc_update_strings("employees", array("tstamp" => $new_tstamp[$x]), "empfullname = ?", $final_username[$x]);
+                        }
 
-                        } elseif ($new_tstamp[$x] < $tmp_tstamp) {
-
-                            $query2 = "select * from " . $db_prefix . "info where fullname = '" . $final_username[$x] . "' order by timestamp desc limit 1,1";
-                            $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $query2);
-
-                            while ($row2 = mysqli_fetch_array($result2)) {
-                                $tmp_tstamp_2 = "" . $row2['timestamp'] . "";
-                            }
-
-                            if ($new_tstamp[$x] > @$tmp_tstamp_2) {
-                                $query2 = "update " . $db_prefix . "employees set tstamp = '" . $new_tstamp[$x] . "' where empfullname = '" . $final_username[$x] . "'";
-                                $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $query2);
-                            } elseif ($new_tstamp[$x] < @$tmp_tstamp_2) {
-                                $query2 = "update " . $db_prefix . "employees set tstamp = '" . $tmp_tstamp_2 . "' where empfullname = '" . $final_username[$x] . "'";
-                                $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $query2);
+                        elseif ($new_tstamp[$x] < $tmp_tstamp) {
+                            $tmp_tstamp_2 = tc_select_value(
+                                "MAX(timestamp)", "info", "fullname = ? AND timestamp != ?",
+                                array($final_username[$x], $final_mysql_timestamp[$x])
+                            );
+                            if ($new_tstamp[$x] > @$tmp_tstamp_2) { $tmp_tstamp_2 = $new_tstamp[$x]; }
+                            if (isset($tmp_tstamp_2) && $tmp_tstamp_2 != $tmp_tstamp) {
+                                tc_update_strings("employees", array("tstamp" => $tmp_tstamp_2), "empfullname = ?", $final_username[$x]);
                             }
                         }
 
                         tc_update_strings(
                             "info",
                             array("timestamp" => $new_tstamp[$x], "notes" => $final_notes[$x]),
-                            "((fullname = ?) AND (`inout` = ?) AND (timestamp = ?))",
+                            "fullname = ? AND `inout` = ? AND timestamp = ?",
                             array($final_username[$x], $final_inout[$x], $final_mysql_timestamp[$x])
                         );
                         tc_refresh_latest_emp_punch($final_username[$x]);
@@ -690,60 +611,46 @@ if ($request == 'GET') {
             }
 
         } else {
-
             // configure timestamp to insert/update //
 
             if ($calendar_style == "euro") {
-                //  $post_date = "$day/$month/$year";
-                $post_date = "$month/$day/$year";
+                $post_date = "$day/$month/$year";
             } elseif ($calendar_style == "amer") {
                 $post_date = "$month/$day/$year";
             }
 
             $row_count = '0';
-            $timestamp = strtotime($post_date) - @$tzo;
-            $calc = $timestamp + 86400 - @$tzo;
-            $post_username = stripslashes($post_username);
-            $post_displayname = stripslashes($post_displayname);
-            $post_username = addslashes($post_username);
-            $post_displayname = addslashes($post_displayname);
-
-            $query = "select * from " . $db_prefix . "info where (fullname = '" . $post_username . "') and ((timestamp < '" . $calc . "') and (timestamp >= '" . $timestamp . "'))
-          order by timestamp asc";
-            $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
+            $timestamp = strtotime("$month/$day/$year") - @$tzo;
+            $calc = $timestamp + 86400;
 
             $username = array();
             $inout = array();
             $notes = array();
             $mysql_timestamp = array();
 
+            $result = tc_select(
+                "fullname, `inout`, timestamp, notes",
+                "info", "fullname = ? AND timestamp < ? AND timestamp >= ? ORDER BY timestamp ASC",
+                array($post_username, $calc, $timestamp)
+            );
             while ($row = mysqli_fetch_array($result)) {
-
                 $time_set = '1';
-                $username[] = "" . $row['fullname'] . "";
-                $inout[] = "" . $row['inout'] . "";
-                $notes[] = "" . $row['notes'] . "";
-                $mysql_timestamp[] = "" . $row['timestamp'] . "";
+                $username[] = "" . $row['fullname'];
+                $inout[] = "" . $row['inout'];
+                $notes[] = "" . $row['notes'];
+                $mysql_timestamp[] = "" . $row['timestamp'];
             }
             $num_rows = mysqli_num_rows($result);
         }
 
-        $post_username = stripslashes($post_username);
-        $post_displayname = stripslashes($post_displayname);
-
         if (!isset($time_set)) {
-
             // configure date to display correctly //
-
-            if ($calendar_style == "euro") {
-                $post_date = "$day/$month/$year";
-            }
 
             echo "            <form name='form' action='$self' method='post' onsubmit=\"return isDate()\">\n";
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    No time for was found in the system for $post_username on $post_date.</td></tr>\n";
+                    No time was found in the system for $post_username on $post_date.</td></tr>\n";
             echo "            </table>\n";
             echo "            <br />\n";
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
@@ -789,10 +696,6 @@ if ($request == 'GET') {
 
         // configure date to display correctly //
 
-        if ($calendar_style == "euro") {
-            $post_date = "$day/$month/$year";
-        }
-
         echo "                <th class=rightside_heading nowrap halign=left colspan=4><img src='../images/icons/clock_edit.png' />&nbsp;&nbsp;&nbsp;Edit
                   Time for $post_username on $post_date</th></tr>\n";
         echo "              <tr><td height=15></td></tr>\n";
@@ -803,12 +706,9 @@ if ($request == 'GET') {
             echo "                  <td nowrap style='padding-left:20px;' width=4% align=left class=column_headings>Current Time</td>\n";
             echo "                  <td style='padding-left:25px;' class=column_headings><u>Notes</u></td></tr>\n";
 
-
             for ($x = 0; $x < $num_rows; $x++) {
-
                 $row_color = ($row_count % 2) ? $color1 : $color2;
                 $time[$x] = date("$timefmt", $mysql_timestamp[$x] + $tzo);
-                $username[$x] = stripslashes($username[$x]);
 
                 echo "              <tr class=display_row>\n";
                 echo "                <td nowrap width=1% style='padding-right:5px;padding-left:10px;' class=table_rows><input type='text'
