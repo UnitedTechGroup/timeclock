@@ -127,6 +127,13 @@ function tc_insert_strings($db, $keyvals) {
     return mysqli_insert_id($GLOBALS["___mysqli_ston"]);
 }
 
+/// Execute a database UPDATE command.
+///
+/// # Example
+///
+/// ```
+/// tc_update_strings("employees", array("tstamp" => $tz_stamp), "empfullname = ?", $fullname);
+/// ```
 function tc_update_strings($db, $keyvals, $where = '1=1', $bind = array(), $types = null) {
     global $db_prefix;
     $places = '';
@@ -160,11 +167,13 @@ function tc_refresh_latest_emp_punch($empname) {
 }
 
 
-/// This provides a shorter name for html escaping. Also, this allows us to change
-/// the flags or encoding if that becomes necessary.
+/// A shorter name for html escaping.
+///
+/// Also, allows us to standardize/change the flags or encoding if that becomes
+/// necessary.
 function html($content = "") {
     // return htmlspecialchars($content, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'ISO-8859-1', true);
-    return htmlspecialchars($content);
+    return htmlspecialchars(strval($content));
 }
 
 function btag($tag, $attr = array()) {
