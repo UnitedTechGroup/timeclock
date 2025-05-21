@@ -149,15 +149,23 @@ function tc_update_strings($db, $keyvals, $where = '1=1', $bind = array(), $type
     tc_execute("UPDATE ${db_prefix}$db SET $places WHERE $where", array_merge($values, $bind), $types);
 }
 
-// Function to update the `employees` table with the latest punch time...
-// When we add or edit punches, the latest punch may change which leads to
-// errors or failures in the dsplay. This brute-forces (has an index, so
-// should be fast) the employees table to point to the most recent punch.
+/// Function to update the `employees` table with the latest punch time...
+///
+/// When we add or edit punches, the latest punch may change which leads to
+/// errors or failures in the dsplay. This brute-forces (has an index, so
+/// should be fast) the employees table to point to the most recent punch.
 function tc_refresh_latest_emp_punch($empname) {
     global $db_prefix;
     tc_execute("UPDATE ${db_prefix}employees SET `tstamp` = (SELECT MAX(timestamp) FROM info WHERE fullname = ?) WHERE empfullname = ?", [ $empname, $empname ], 'ss');
 }
 
+
+/// This provides a shorter name for html escaping. Also, this allows us to change
+/// the flags or encoding if that becomes necessary.
+function html($content = "") {
+    // return htmlspecialchars($content, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'ISO-8859-1', true);
+    return htmlspecialchars($content);
+}
 
 function btag($tag, $attr = array()) {
     $begin = array(htmlentities($tag));
@@ -168,14 +176,14 @@ function btag($tag, $attr = array()) {
 }
 
 function tag($tag, $content = "", $attr = array()) {
-    return btag($tag, $attr) . htmlentities($content) . "</" . htmlentities($tag) . ">";
+    return btag($tag, $attr) . html($content) . "</" . htmlentities($tag) . ">";
 }
 
 function html_options($result, $selected='') {
     $rv = array();
     while ($row = mysqli_fetch_array($result)) {
         $value = htmlentities($row[0]);
-        $display = htmlentities(is_null(@$row[1]) ? $row[0] : $row[1]);
+        $display = html(is_null(@$row[1]) ? $row[0] : $row[1]);
         $sel = ($row[0] == $selected) ? " selected" : "";
         $rv[] = "<option value=\"$value\"$sel>$display</option>\n";
     }
