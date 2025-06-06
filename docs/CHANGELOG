@@ -1,4 +1,9 @@
 
+PHP Timeclock  2.4.2  released 2025-06-06
+  Bug fixes
+    - Clean/fix up more database interactions making queries more robust
+      against changes or attacks
+
 PHP Timeclock  2.4.1  released 2025-05-20
   Bug fixes
     - Clean/fix up more database interactions making queries more robust
