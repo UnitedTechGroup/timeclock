@@ -11,7 +11,7 @@ function MAIN() {
             if (has_value(@$_REQUEST['render']) && has_value(@$_REQUEST['type'])) {
                 action_render(trim($_REQUEST['render']), trim($_REQUEST['type']));
             } else {
-                croak(400, 'Missing value');
+                croak('Missing value', 400);
             }
         }
 
@@ -19,15 +19,15 @@ function MAIN() {
             if (has_value(@$_REQUEST['download'])) {
                 action_download(trim($_REQUEST['download']));
             } else {
-                croak(400, 'Missing value');
+                croak('Missing value', 400);
             }
         }
 
         else {
-            croak(404, 'No such action');
+            croak('No such action', 404);
         }
     } else {
-        croak(403, 'Forbidden');
+        croak('Forbidden', 403);
     }
 }
 
@@ -56,14 +56,14 @@ function do_render($value, $encoding) {
     global $barcode_cache_age;
 
     if (preg_match('/[^a-zA-Z0-9]/', $value)) {
-        croak(400, 'Invalid barcode value');
+        croak('Invalid barcode value', 400);
     }
 
     $encoding = strtolower($encoding);
     if ($encoding === 'code39')  { $encoding = 'code39'; }
     elseif ($encoding === 'ean') { $encoding = 'EAN'; }
     elseif ($encoding === 'upc') { $encoding = 'UPC'; }
-    else { croak(400, 'Invalid barcode encoding'); }
+    else { croak('Invalid barcode encoding', 400); }
 
     # Regardless of what $value is, we want the key to be safe:
     $key = hash("sha256", $value);
@@ -75,7 +75,7 @@ function do_render($value, $encoding) {
     }
 
     if (!(true === @mkdir($barcode_cache_dir, 0750, true) or is_dir($barcode_cache_dir))) {
-        croak(500, 'Bummer');
+        croak('Bummer', 500);
     }
 
     clean_barcode_cache($barcode_cache_dir, strtotime('-' . $barcode_cache_age));
@@ -95,7 +95,7 @@ function do_render($value, $encoding) {
     $lineout = system($cmd, $rv);
     if ($rv != 0) {
         error_log("$cmd -> '$lineout'");
-        croak(500, 'Bummer');
+        croak('Bummer', 500);
     }
 
     # Convert to .png file
@@ -115,7 +115,7 @@ function do_render($value, $encoding) {
     $lineout = system($cmd, $rv);
     if ($rv != 0) {
         error_log("$cmd -> '$lineout'");
-        croak(500, 'Bummer');
+        croak('Bummer', 500);
     }
 
     unlink("$basename.eps");
@@ -128,7 +128,7 @@ function action_download($key) {
     global $barcode_cache_dir;
 
     if (preg_match('/[^a-zA-Z0-9]/', $key)) {
-        croak(404, 'Invalid value');
+        croak('Invalid value', 404);
     }
 
     $file = "$barcode_cache_dir/$key.png";
@@ -137,7 +137,7 @@ function action_download($key) {
         header('Content-disposition: attachment; filename="barcode.png"');
         readfile($file);
     } else {
-        croak(404, 'Invalid value');
+        croak('Invalid value', 404);
     }
 }
 

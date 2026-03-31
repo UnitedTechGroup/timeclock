@@ -1,6 +1,7 @@
 <?php
 
-function croak($code, $msg) {
+/// Immediately abort the page render with an exception
+function croak($msg, $code=500) {
     http_response_code($code);
     echo $msg;
     throw new Exception($msg);
