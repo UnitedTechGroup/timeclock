@@ -54,14 +54,14 @@ echo "</table>\n";
 
 if ($display_current_time === "server" or $display_current_time === "client") {
     $servertime = time();
-    echo tag("script", <<<SCRIPT
+    echo <<<SCRIPT
+<script>
 var serverOffset = 1000 * $servertime - Date.now();
 ready(function(){
     update_time('$display_current_time', document.getElementById('currenttime'), serverOffset, true);
 });
-SCRIPT
-    , array("type" => "text/javascript")
-    );
+</script>
+SCRIPT;
 }
 
 // display the topbar //
