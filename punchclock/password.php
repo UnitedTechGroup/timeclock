@@ -8,7 +8,6 @@
 $current_page = "password.php";
 
 require 'common.php';
-turn_off_magic_quotes();
 
 session_start();
 $_SESSION['application'] = $current_page; // security

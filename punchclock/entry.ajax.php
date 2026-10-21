@@ -11,7 +11,6 @@ if (!isset($_SESSION['application']))
 
 require 'common.php';
 require_once 'lib.timecard.php';
-//turn_off_magic_quotes();
 
 // Connect to db.
 tc_connect();

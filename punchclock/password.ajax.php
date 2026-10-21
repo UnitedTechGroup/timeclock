@@ -10,7 +10,6 @@ if (!isset($_SESSION['application']))
     die("Invalid invocation."); // set in punchclock.php
 
 require 'common.php';
-turn_off_magic_quotes();
 
 // Connect to db.
 tc_connect();

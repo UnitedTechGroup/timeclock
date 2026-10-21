@@ -12,7 +12,6 @@ $current_page = "punchclock.php";
 
 require 'common.php';
 require_once 'lib.select.php';
-turn_off_magic_quotes();
 
 # Uncomment next to force logout and always run punchclock without privileges 
 #session_stop();

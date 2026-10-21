@@ -7,7 +7,6 @@ $current_page = "timecard.php";
 
 require 'common.php';
 require_once 'lib.timecard.php';
-turn_off_magic_quotes();
 
 // Check for logout
 if (isset($_REQUEST['logout'])) {

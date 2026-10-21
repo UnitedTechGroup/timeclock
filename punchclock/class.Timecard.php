@@ -24,7 +24,7 @@ class Timecard {
     var $overtime_hours; // sum of overtime hours
     var $total_hours; // total of regular hours and overtime hours
 
-    function Timecard($empfullname, $begin_local_timestamp, $end_local_timestamp) {
+    function __construct($empfullname, $begin_local_timestamp, $end_local_timestamp) {
         $this->empfullname = $empfullname;
         $this->begin_local_timestamp = $begin_local_timestamp;
         $this->end_local_timestamp = $end_local_timestamp;

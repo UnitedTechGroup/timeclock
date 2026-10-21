@@ -6,7 +6,6 @@
 $current_page = "login.php";
 
 require 'common.php';
-turn_off_magic_quotes();
 
 // Check for logout
 if (isset($_REQUEST['logout'])) {

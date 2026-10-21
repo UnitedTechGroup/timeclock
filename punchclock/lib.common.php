@@ -315,30 +315,6 @@ function bool($str = null) {
 }
 
 ////////////////////////////////////////
-function turn_off_magic_quotes() {
-    if (get_magic_quotes_gpc()) {
-        remove_magic_quotes($_GET);
-        remove_magic_quotes($_POST);
-        remove_magic_quotes($_COOKIE);
-        remove_magic_quotes($_REQUEST);
-        //ini_set('magic_quotes_gpc', 0);
-    }
-    //set_magic_quotes_runtime(0);
-}
-
-function remove_magic_quotes(&$array) {
-    if (empty($array))
-        return;
-    foreach (array_keys($array) as $key) {
-        if (is_array($array[$key])) {
-            remove_magic_quotes($array[$key]);
-        } else {
-            $array[$key] = stripslashes($array[$key]);
-        }
-    }
-}
-
-////////////////////////////////////////
 function msg($msg) {
     return <<< EOF
 <div class="message">

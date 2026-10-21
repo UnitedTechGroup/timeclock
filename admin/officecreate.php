@@ -141,9 +141,6 @@ if ($request == 'GET') {
     echo "          <td valign=top>\n";
     echo "            <br />\n";
 
-    if (get_magic_quotes_gpc()) {
-        $post_officename = stripslashes($post_officename);
-    }
     $post_officename = addslashes($post_officename);
 
     // begin post validation //
