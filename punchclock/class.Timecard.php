@@ -58,6 +58,7 @@ class Timecard {
 
         // Set flag to tally today's hours if within current week.
         $local_timestamp = local_timestamp(); // current time
+        $do_today_hours = false;
         if ($local_timestamp >= $this->begin_local_timestamp && $local_timestamp <= $this->end_local_timestamp) {
             // In current work week, set flag to look for and sum today's hours too.
             $do_today_hours = true;
@@ -167,8 +168,8 @@ class Timecard {
                 $this->row['color'] = '#333';
                 $this->row['inout'] = $this->row['punchitems'] = $timecard_punchitem;
                 $this->row['notes'] = ($this->end_time == $local_timestamp)
-                    ? "(current time) " . $this->row['notes'] // add note
-                    : "(end of period) " . $this->row['notes']; // add note
+                    ? "(current time) " . ($this->row['notes'] ?? '') // add note
+                    : "(end of period) " . ($this->row['notes'] ?? ''); // add note
             }
 
             // Trigger onEveryRow function.

@@ -157,7 +157,7 @@ if($thisCol >= $maxCols) {
 			 echo " ".langtransstr($direction). " ";
 		 }
 		 if(isset($SITE['uomDistance']) and preg_match('|mi|i',$SITE['uomDistance'])) {
-			 echo "${mtrDistanceM}mi, ";
+			 echo "{$mtrDistanceM}mi, ";
 		 }
 		 //echo "${mtrDistanceK}km";
 		  
@@ -234,7 +234,7 @@ foreach ($toDisplay as $key => $legend) {
    }
    $t = preg_replace('|\((.*)\)|U'," <span class=\"bidi\">, $1</span>",$t); // fix parenthesis issue in RTL language
    print "  <tr>\n";
-   print "    <td class=\"data1\" align=\"right\">${legend}:</td>\n";
+   print "    <td class=\"data1\" align=\"right\">{$legend}:</td>\n";
    print "    <td class=\"data1\" align=\"left\"><b><span class=\"bidi\">".$t."</span></b></td>\n";
    print "  </tr>\n";
 }

@@ -25,7 +25,7 @@ and this fork has not been endorsed by original authors.
 
 ## Requirements
 
-- Tested with PHP 5.4 – 7.0
+- Tested with PHP 8.4
 - MySQL or MariaDB
 - Webserver
 

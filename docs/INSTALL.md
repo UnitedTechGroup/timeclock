@@ -5,7 +5,7 @@ PHP Timeclock
 REQUIREMENTS
 ------------
 
-- At least PHP 5.4, with mysql support
+- At least PHP 8.2, with mysql support
 - MariaDB or MySQL
 - Webserver
 - Javascript enabled web browser
@@ -20,15 +20,9 @@ For barcode rendering (optional):
 TESTED CONFIGURATIONS
 ---------------------
 
-Debian 11.0 (Bullseye): PHP 7.4.28, MariaDB 10.5, Apache 2.4.52
+Debian 13.0 (Trixie): PHP 8.4.26, MariaDB 11.8.6, Apache 2.4.69
     packages: apache2 libapache2-mod-php php-mysql mariadb-server
     A Dockerfile is available at: https://github.com/duelafn/dockerfiles/tree/master/timecard
-
-Debian 9.0 (Stretch): PHP 7.0.27, MariaDB 10.1, Apache 2.4.25
-    packages: apache2 libapache2-mod-php php7.0-mysql mariadb-server
-
-Debian 8.0 (Jessie): PHP 5.6.30, MariaDB 10.0, Apache 2.4.10
-    packages: apache2 libapache2-mod-php5 php5-mysqlnd mariadb-server
 
 
 INSTALLATION

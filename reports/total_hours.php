@@ -615,7 +615,7 @@ QUERY
             while ($row = mysqli_fetch_array($result)) {
                 $info_fullname[] = "" . $row['fullname'] . "";
                 $info_inout[] = "" . $row['inout'] . "";
-                $info_timestamp[] = "" . $row['timestamp'] . "" + $tzo;
+                $info_timestamp[] = ((int)$row['timestamp']) + $tzo;
                 $info_notes[] = "" . $row['notes'] . "";
                 $info_ipaddress[] = "" . $row['ipaddress'] . " " . $row['punchoffice'] . "";
                 $punchlist_in_or_out[] = "" . $row['in_or_out'] . "";

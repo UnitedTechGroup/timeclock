@@ -82,10 +82,9 @@ $query = "select * from " . $db_prefix . "groups, " . $db_prefix . "offices wher
 $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
 
 while ($row = mysqli_fetch_array($result)) {
-
     $query2 = "select groups from " . $db_prefix . "employees where groups = '" . $row['groupname'] . "' and office = '" . $row['officename'] . "'";
     $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $query2);
-    @$user_cnt = mysqli_num_rows($result2);
+    @$user_cnt = $result2 ? mysqli_num_rows($result2) : -1;
 
     $parent_office = "" . $row['officename'] . "";
 

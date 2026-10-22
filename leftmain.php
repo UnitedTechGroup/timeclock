@@ -13,6 +13,8 @@ if ($show_display_name == "yes") {
     $emp_name_field = "empfullname";
 }
 
+$emp_name = null;
+
 if ($request == 'POST') {
     @$remember_me = $_POST['remember_me'];
     @$reset_cookie = $_POST['reset_cookie'];
@@ -70,7 +72,7 @@ if ($request == 'POST') {
     // end post validation //
 
     if (empty($errors)) {
-        if (isset($remember_me)) {
+        if (isset($remember_me) && isset($emp_name)) {
             setcookie("remember_me", $emp_name, time() + (60 * 60 * 24 * 365 * 2));
         } elseif (isset($reset_cookie)) {
             setcookie("remember_me", "", time() - 3600);
@@ -212,9 +214,9 @@ if ($request == 'POST') {
     if (!has_value($inout) and has_value($emp_name)) {
         $result = tc_query(<<<QUERY
    SELECT p.punchnext
-     FROM ${db_prefix}employees AS e
-LEFT JOIN ${db_prefix}info      AS i ON (e.empfullname = i.fullname AND e.tstamp = i.timestamp)
-LEFT JOIN ${db_prefix}punchlist AS p ON (i.inout = p.punchitems)
+     FROM {$db_prefix}employees AS e
+LEFT JOIN {$db_prefix}info      AS i ON (e.empfullname = i.fullname AND e.tstamp = i.timestamp)
+LEFT JOIN {$db_prefix}punchlist AS p ON (i.inout = p.punchitems)
     WHERE e.$emp_name_field = ?
 QUERY
         , $emp_name);

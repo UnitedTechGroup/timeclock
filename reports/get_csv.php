@@ -340,7 +340,7 @@ if (($_GET['rpt'] == 'timerpt') && (isset($_GET['display_ip'])) && (isset($_GET[
 
                 $info_fullname[] = stripslashes("" . $row['fullname'] . "");
                 $info_inout[] = "" . $row['inout'] . "";
-                $info_timestamp[] = "" . $row['timestamp'] . "" + $tzo;
+                $info_timestamp[] = ((int)$row['timestamp']) + $tzo;
                 $info_notes[] = "" . $row['notes'] . "";
                 $info_ipaddress[] = "" . $row['ipaddress'] . "";
                 $punchlist_in_or_out[] = "" . $row['in_or_out'] . "";

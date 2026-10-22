@@ -90,12 +90,12 @@ function tc_query($query, $params = array(), $types = null) {
 
 function tc_select($what, $from, $where = '1=1', $params = array(), $types = null) {
     global $db_prefix;
-    return tc_query("SELECT $what FROM ${db_prefix}$from WHERE $where", $params, $types);
+    return tc_query("SELECT $what FROM {$db_prefix}$from WHERE $where", $params, $types);
 }
 
 function tc_select_value($what, $from, $where = '1=1', $params = array(), $types = null) {
     global $db_prefix;
-    $result = tc_query("SELECT $what FROM ${db_prefix}$from WHERE $where", $params, $types);
+    $result = tc_query("SELECT $what FROM {$db_prefix}$from WHERE $where", $params, $types);
     $value = null;
     while ($row = mysqli_fetch_array($result)) {
         $value = $row[0];
@@ -105,7 +105,7 @@ function tc_select_value($what, $from, $where = '1=1', $params = array(), $types
 
 function tc_delete($from, $where, $params = array(), $types = null) {
     global $db_prefix;
-    return tc_query("DELETE FROM ${db_prefix}$from WHERE $where", $params, $types);
+    return tc_query("DELETE FROM {$db_prefix}$from WHERE $where", $params, $types);
 }
 
 function tc_insert_strings($db, $keyvals) {
@@ -124,7 +124,7 @@ function tc_insert_strings($db, $keyvals) {
         $types .= "s";
         $values[] = (is_null($value) ? $value : "$value");
     }
-    tc_execute("INSERT INTO ${db_prefix}$db ($keys) VALUES ($places)", $values, $types);
+    tc_execute("INSERT INTO {$db_prefix}$db ($keys) VALUES ($places)", $values, $types);
     return mysqli_insert_id($GLOBALS["___mysqli_ston"]);
 }
 
@@ -154,7 +154,7 @@ function tc_update_strings($db, $keyvals, $where = '1=1', $bind = array(), $type
     if (!is_null($types)) {
         $types = $set_types . $types;
     }
-    tc_execute("UPDATE ${db_prefix}$db SET $places WHERE $where", array_merge($values, $bind), $types);
+    tc_execute("UPDATE {$db_prefix}$db SET $places WHERE $where", array_merge($values, $bind), $types);
 }
 
 /// Function to update the `employees` table with the latest punch time...
@@ -164,7 +164,7 @@ function tc_update_strings($db, $keyvals, $where = '1=1', $bind = array(), $type
 /// should be fast) the employees table to point to the most recent punch.
 function tc_refresh_latest_emp_punch($empname) {
     global $db_prefix;
-    tc_execute("UPDATE ${db_prefix}employees SET `tstamp` = (SELECT MAX(timestamp) FROM info WHERE fullname = ?) WHERE empfullname = ?", [ $empname, $empname ], 'ss');
+    tc_execute("UPDATE {$db_prefix}employees SET `tstamp` = (SELECT MAX(timestamp) FROM info WHERE fullname = ?) WHERE empfullname = ?", [ $empname, $empname ], 'ss');
 }
 
 
@@ -205,26 +205,26 @@ function json_out($value) {
     echo json_encode($value);
 }
 
-function yes_no_bool($val, $default=false) {
-    if (strtolower(@$val) == 'yes') {
-        return true;
-    }
-    if (strtolower(@$val) == 'no') {
-        return false;
-    }
+function yes_no_bool(?string $val, bool $default=false): bool {
+    if (is_null($val)) { return $default; }
+    if (strtolower($val) == 'yes') { return true; }
+    if (strtolower($val) == 'no') { return false; }
     return $default;
 }
 
 function value_or_null($val) {
-    return ((strlen(trim(@$val)) == 0) ? null : $val);
+    return (has_value($val) ? $val : null);
 }
 
-function one_or_empty($val) {
-    return ((@$val == "1") ? "1" : "");
+function one_or_empty($val): string {
+    if (is_string($val)) { return (($val == "1") ? "1" : ""); }
+    return "";
 }
 
-function has_value($val) {
-    return (strlen(trim(@$val)) != 0);
+function has_value($val): bool {
+    if (is_string($val)) { return (strlen(trim(@$val)) !== 0); }
+    if (is_array($val)) { return !empty($val); }
+    return isset($val);
 }
 
 function nonce($alphabet, $length) {

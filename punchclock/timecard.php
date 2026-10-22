@@ -24,6 +24,7 @@ include 'setup_timeclock.php'; // authorize and initialize
 // Parse arguments.
 $emp = isset($_GET['emp']) ? $_GET['emp'] : null;
 $empfullname = isset($_REQUEST['empfullname']) ? $_REQUEST['empfullname'] : null;
+$u_empfullname = '';
 $error_msg = "";
 
 if (!$empfullname)
@@ -35,6 +36,8 @@ if ($empfullname) {
     if (!$empfullname) {
         $error_msg .= "Name was not recognized. Please re-enter your name.\n";
         unset($_SESSION['authenticated']);
+    } else {
+        $u_empfullname = rawurlencode($empfullname);
     }
 }
 

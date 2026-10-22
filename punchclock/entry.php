@@ -24,6 +24,7 @@ $_SESSION['application'] = $current_page; // security
 
 $msg = '';
 $error_msg = '';
+$u_empfullname = '';
 
 include 'setup_timeclock.php'; // authorize and initialize
 

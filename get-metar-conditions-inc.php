@@ -1157,9 +1157,9 @@ global $lang,$Debug, $mtrInfo, $metarPtr, $group, $UOMS;
 			$altitudeM = round($altitude/3.28084);
 			if(!isset($mtrInfo['CLOUD-DETAILS'])) {$mtrInfo['CLOUD-DETAILS'] = '';}
 			if($doMetric) {
-			   $mtrInfo['CLOUD-DETAILS'] .= $cloudCode[$pieces[1]]." ${altitudeM} m\t";
+			   $mtrInfo['CLOUD-DETAILS'] .= $cloudCode[$pieces[1]]." {$altitudeM} m\t";
 			} else {
-			   $mtrInfo['CLOUD-DETAILS'] .= $cloudCode[$pieces[1]]." ${altitude} ft\t";
+			   $mtrInfo['CLOUD-DETAILS'] .= $cloudCode[$pieces[1]]." {$altitude} ft\t";
 			}
 			if ($pieces[1] == 'VV') {
 				$mtrInfo['CLOUDS'] = "Overcast";

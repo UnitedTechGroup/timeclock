@@ -115,9 +115,10 @@ $row_count = 0;
 $result = tc_select("*", "offices", "1=1 ORDER BY officename");
 
 while ($row = mysqli_fetch_array($result)) {
-
-    @$user_cnt  = mysqli_num_rows(tc_select("1", "employees", "office = ?", $row['officename']));
-    @$group_cnt = mysqli_num_rows(tc_select("1", "groups",  "officeid = ?", $row['officeid']));
+    $res = tc_select("1", "employees", "office = ?", $row['officename']);
+    @$user_cnt  = $res ? mysqli_num_rows($res) : -1;
+    $res = tc_select("1", "groups",  "officeid = ?", $row['officeid']);
+    @$group_cnt = $res ? mysqli_num_rows($res) : -1;
 
     $row_count++;
     $row_color = ($row_count % 2) ? $color2 : $color1;
