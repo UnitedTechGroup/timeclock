@@ -1,4 +1,8 @@
 
+PHP Timeclock  2.5.1  released 2026-10-22
+  Changed
+    - Fix current time display on main page
+
 PHP Timeclock  2.5.0  released 2026-10-21
   Changed
     ! Bump minimum supported PHP version to 8.2
